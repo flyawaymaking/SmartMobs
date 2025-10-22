@@ -1,0 +1,27 @@
+name: SmartMobs
+main: com.flyaway.smartmobs.SmartMobs
+version: 1.0.0
+api-version: 1.21
+author: FlyAwayMaking
+website: https://github.com/flyawaymaking
+description: Плагин для добавления усиленных мобов с полной системой способностей
+
+commands:
+  smartmobs:
+    description: Основная команда для управления SmartMobs
+    usage: /smartmobs [reload,spawn]
+    permission: smartmobs.use
+    permission-message: §cУ вас нет прав на использование этой команды!
+
+permissions:
+  smartmobs.use:
+    description: Дает доступ к базовой информации о плагине
+    default: true
+
+  smartmobs.reload:
+    description: Разрешает перезагрузку конфигурации SmartMobs
+    default: op
+
+  smartmobs.spawn:
+    description: Разрешает ручной спавн усиленных мобов
+    default: op

@@ -1,0 +1,189 @@
+# Настройки модов SmartMobs
+# Вероятности появления различных типов мобов
+chances:
+  hardened: 0.15
+  elite: 0.05
+
+# Включить/выключить модификации для каждого моба
+enabled-mobs:
+  zombie: true
+  skeleton: true
+  creeper: true
+  spider: true
+  enderman: true
+  witch: true
+  phantom: true
+  blaze: true
+  ghast: true
+  cave_spider: true
+  silverfish: true
+  endermite: true
+  slime: true
+  magma_cube: true
+  guardian: true
+  elder_guardian: true
+  shulker: true
+  vex: true
+  evoker: true
+  vindicator: true
+  pillager: true
+  ravager: true
+  hoglin: true
+  piglin: true
+  piglin_brute: true
+  zoglin: true
+  bogged: true
+
+# Базовые характеристики для мутировавших мобов
+hardened:
+  hp-multiplier: 1.25
+  damage-multiplier: 1.25
+  knockback-resistance: 0.5
+  name-visible: true
+  show-duration: 3
+
+  # Индивидуальные имена для каждого типа мобов
+  display-names:
+    zombie: "§6Гниющий Странник"
+    skeleton: "§7Вечный Часовой"
+    creeper: "§2Испепеляющий Гость"
+    spider: "§8Шёлковый Убийца"
+    enderman: "§5Бездонный Скиталец"
+    witch: "§dБолотная Зельеварка"
+    phantom: "§8Ночной Кошмар"
+    blaze: "§6Огненный Дух"
+    ghast: "§fТуманный Призрак"
+    cave_spider: "§2Ядовитый Охотник"
+    silverfish: "§7Каменный Червец"
+    endermite: "§5Пространственная Блоха"
+    slime: "§aБолотная Слизь"
+    magma_cube: "§6Вулканическая Глыба"
+    guardian: "§3Глубинный Страж"
+    elder_guardian: "§1Древний Хранитель"
+    shulker: "§dРакушечный Защитник"
+    vex: "§8Эфирный Вредитель"
+    evoker: "§5Теневой Заклинатель"
+    vindicator: "§4Неумолимый Воин"
+    pillager: "§6Лесной Разбойник"
+    ravager: "§7Каменный Танк"
+    hoglin: "§4Адский Кабан"
+    piglin: "§6Золотоискатель"
+    piglin_brute: "§4Свирепый Громила"
+    zoglin: "§cИскажённый Зверь"
+    bogged: "§2Грибной Часовой"
+
+# Базовые характеристики для эволюционировавших мобов
+elite:
+  hp-multiplier: 1.5
+  damage-multiplier: 1.5
+  speed-multiplier: 1.4
+  knockback-resistance: 0.8
+  name-visible: true
+  show-duration: 3
+  strength:
+    enabled: true
+    level: 0
+
+  # Индивидуальные имена для каждого типа мобов
+  display-names:
+    zombie: "§4Порченый Бродяга"
+    skeleton: "§8Костяной Отзвук"
+    creeper: "§cГрозовой Разрыв"
+    spider: "§0Тенетный Властитель"
+    enderman: "§5Пространственный Разлом"
+    witch: "§5Теневая Колдунья"
+    phantom: "§8Эфирный Крик"
+    blaze: "§cАдское Ядро"
+    ghast: "§fНебесный Плач"
+    cave_spider: "§4Смертоносный Охотник"
+    silverfish: "§8Каменный Роевик"
+    endermite: "§dРазрывной Паразит"
+    slime: "§2Живая Слизь"
+    magma_cube: "§4Расплавленный Титан"
+    guardian: "§1Океанский Страж"
+    elder_guardian: "§5Древний Левиафан"
+    shulker: "§5Защитник Энда"
+    vex: "§7Призрачный Мучитель"
+    evoker: "§4Властитель Руин"
+    vindicator: "§cКровавый Воин"
+    pillager: "§4Предводитель Разбоя"
+    ravager: "§8Железный Танк"
+    hoglin: "§4Яростный Зверь"
+    piglin: "§6Барыга Бездны"
+    piglin_brute: "§4Свирепый Убийца"
+    zoglin: "§cИскажённый Ужас"
+    bogged: "§4Токсичный Грибник"
+
+# Специфические способности для разных мобов
+special-abilities:
+  skeleton:
+    hardened:
+      arrow-speed-multiplier: 1.4
+      attack-speed: 1.4
+    elite:
+      arrow-speed-multiplier: 1.8
+      attack-speed: 1.8
+      triple-shot: true
+
+  creeper:
+    hardened:
+      explosion-power: 1.4
+      fuse-time: 0.85
+    elite:
+      explosion-power: 1.0
+      fuse-time: 0.7
+      charged: true
+
+  spider:
+    hardened:
+      web-effect: true
+      jump-strength: 1.4
+    elite:
+      web-effect: true
+      jump-strength: 1.8
+      poison-bite: true
+
+  enderman:
+    hardened:
+      teleport-range: 1.5
+      teleport-cooldown: 0.8
+    elite:
+      teleport-range: 2.0
+      teleport-cooldown: 0.5
+      water-resistance: true
+
+  witch:
+    hardened:
+      potion-strength: 1.4
+      healing-chance: 0.3
+    elite:
+      potion-strength: 1.8
+      healing-chance: 0.6
+      resistance-potion: true
+
+  phantom:
+    hardened:
+      swoop-speed: 1.4
+      attack-cooldown: 0.8
+    elite:
+      swoop-speed: 1.8
+      attack-cooldown: 0.5
+      size-multiplier: 1.3
+
+  blaze:
+    hardened:
+      fireball-speed: 1.4
+      fireball-count: 2
+    elite:
+      fireball-speed: 1.8
+      fireball-count: 3
+      fire-aura: true
+
+  ghast:
+    hardened:
+      explosion-multiplier: 1.4
+      fireball-speed: 1.2
+    elite:
+      explosion-multiplier: 2.5
+      fireball-speed: 1.5
+      triple-shot: true
