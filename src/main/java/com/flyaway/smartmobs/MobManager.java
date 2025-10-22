@@ -9,6 +9,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -25,15 +26,72 @@ public class MobManager {
         if (entity == null || configManager == null) return;
         if (!configManager.isMobEnabled(entity.getType())) return;
 
-        double rand = random.nextDouble();
         double hardenedChance = configManager.getHardenedChance();
         double eliteChance = configManager.getEliteChance();
 
+        if (configManager.isRadiusComplicationEnabled()) {
+            double worldRadius = configManager.getWorldRadius();
+
+            // Безопасность: worldRadius должен быть > 0
+            if (worldRadius >= 0) {
+                double distance = entity.getWorld().getSpawnLocation().distance(entity.getLocation());
+                double normalized = Math.min(distance / worldRadius, 1.0);
+
+                var logger = SmartMobs.getInstance().getLogger();
+
+                List<ConfigManager.RadiusLevel> levels = configManager.getRadiusLevels();
+                if (levels != null && !levels.isEmpty()) {
+                    boolean found = false;
+                    // Логируем уровни для отладки (индекс и границы)
+                    for (int i = 0; i < levels.size(); i++) {
+                        ConfigManager.RadiusLevel lvl = levels.get(i);
+                    }
+
+                    for (int i = 0; i < levels.size(); i++) {
+                        ConfigManager.RadiusLevel level = levels.get(i);
+
+                        // Нормализованные границы должны быть валидными; если level.to < level.from — пропускаем
+                        if (level.to < level.from) {
+                            continue;
+                        }
+
+                        if (normalized >= level.from && normalized <= level.to) {
+                            double denom = (level.to - level.from);
+                            double factor = denom <= 0.0 ? 0.0 : (normalized - level.from) / denom;
+                            // интерполируем от базовых значений к значениям уровня
+                            hardenedChance = interpolate(configManager.getHardenedChance(), level.hardened, factor);
+                            eliteChance = interpolate(configManager.getEliteChance(), level.elite, factor);
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    // Если не нашли подходящий уровень:
+                    if (!found) {
+                        // если за пределом (normalized >= 1.0) — используем последний уровень как "максимальный"
+                        if (normalized >= 1.0) {
+                            ConfigManager.RadiusLevel last = levels.get(levels.size() - 1);
+                            hardenedChance = last.hardened;
+                            eliteChance = last.elite;
+                        } else {
+                            // иначе — логируем, что ни один уровень не подошёл (возможен разрыв в уровнях)
+                            logger.warning(String.format("[SmartMobs] Не найден уровень для normalized=%.4f. Проверь radius-levels в конфиge.", normalized));
+                        }
+                    }
+                }
+            }
+        }
+
+        double rand = random.nextDouble();
         if (rand < eliteChance) {
             makeElite(entity);
         } else if (rand < eliteChance + hardenedChance) {
             makeHardened(entity);
         }
+    }
+
+    private double interpolate(double start, double end, double t) {
+        return start + (end - start) * Math.max(0.0, Math.min(1.0, t));
     }
 
     private double getDoubleFromConfig(Object value) {

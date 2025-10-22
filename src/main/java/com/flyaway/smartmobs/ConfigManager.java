@@ -1,6 +1,7 @@
 package com.flyaway.smartmobs;
 
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 
 import java.util.List;
@@ -18,6 +19,9 @@ public class ConfigManager {
     // Вероятности
     private double hardenedChance = 0.15;
     private double eliteChance = 0.05;
+    private boolean radiusComplication = false;
+    private double worldRadius = 10000;
+    List<RadiusLevel> radiusLevels = new ArrayList<>();
 
     // Множители для hardened
     private double hardenedHpMultiplier = 1.25;
@@ -52,7 +56,6 @@ public class ConfigManager {
 
     public void reloadConfig() {
         SmartMobs plugin = SmartMobs.getInstance();
-        plugin.reloadConfig();
         loadConfig();
     }
 
@@ -60,6 +63,33 @@ public class ConfigManager {
         if (config == null) return;
         hardenedChance = config.getDouble("chances.hardened", hardenedChance);
         eliteChance = config.getDouble("chances.elite", eliteChance);
+        worldRadius = config.getDouble("chances.world-radius", 10000.0);
+        radiusComplication = config.getBoolean("chances.radius-complication", false);
+        if (!radiusComplication) return;
+
+        List<RadiusLevel> result = new ArrayList<>();
+
+        List<?> rawList = config.getList("chances.radius-levels");
+        if (rawList == null) {
+            SmartMobs.getInstance().getLogger().warning("[SmartMobs] radius-levels не найден в конфиге!");
+            return;
+        }
+
+        for (Object item : rawList) {
+            if (item instanceof Map<?, ?> map) {
+                double from = parseDouble(map.get("from"), 0.0);
+                double to = parseDouble(map.get("to"), 1.0);
+                double hardened = parseDouble(map.get("hardened"), getHardenedChance());
+                double elite = parseDouble(map.get("elite"), getEliteChance());
+
+                result.add(new RadiusLevel(from, to, hardened, elite));
+            } else {
+                SmartMobs.getInstance().getLogger().warning("[SmartMobs] Элемент radius-levels имеет неверный формат: " + item);
+            }
+        }
+
+        radiusLevels = result;
+        SmartMobs.getInstance().getLogger().info("[SmartMobs] Загружено уровней сложности: " + result.size());
     }
 
     private void loadEnabledMobs() {
@@ -164,8 +194,15 @@ public class ConfigManager {
     public double getEliteChance() { return eliteChance; }
     public boolean isMobEnabled(EntityType type) { return enabledMobs.getOrDefault(type, false); }
     public boolean isMobEnabled(String mobName) {
-        if (config == null) return false;
-        return config.getBoolean("enabled-mobs." + mobName.toLowerCase(), false);
+        if (mobName == null) return false;
+
+        try {
+            EntityType type = EntityType.valueOf(mobName.toUpperCase());
+            return enabledMobs.getOrDefault(type, false);
+        } catch (IllegalArgumentException e) {
+            SmartMobs.getInstance().getLogger().warning("[SmartMobs] isMobEnabled: неизвестный тип моба " + mobName);
+            return false;
+        }
     }
     public double getHardenedHpMultiplier() { return hardenedHpMultiplier; }
     public double getHardenedDamageMultiplier() { return hardenedDamageMultiplier; }
@@ -183,11 +220,10 @@ public class ConfigManager {
 
     public List<String> getEnabledMobTypes() {
         List<String> result = new ArrayList<>();
-        if (config == null || !config.isConfigurationSection("enabled-mobs")) return result;
 
-        for (String key : config.getConfigurationSection("enabled-mobs").getKeys(false)) {
-            if (config.getBoolean("enabled-mobs." + key)) {
-                result.add(key.toLowerCase());
+        for (Map.Entry<EntityType, Boolean> entry : enabledMobs.entrySet()) {
+            if (Boolean.TRUE.equals(entry.getValue())) {
+                result.add(entry.getKey().name().toLowerCase());
             }
         }
         return result;
@@ -196,6 +232,42 @@ public class ConfigManager {
     public String getDisplayName(String type, EntityType mobType) {
         Map<EntityType, String> names = displayNames.get(type);
         return names != null ? names.get(mobType) : null;
+    }
+
+    public boolean isRadiusComplicationEnabled() {
+        return radiusComplication;
+    }
+
+    public double getWorldRadius() {
+        return worldRadius;
+    }
+
+    public static class RadiusLevel {
+        public final double from;
+        public final double to;
+        public final double hardened;
+        public final double elite;
+
+        public RadiusLevel(double from, double to, double hardened, double elite) {
+            this.from = from;
+            this.to = to;
+            this.hardened = hardened;
+            this.elite = elite;
+        }
+    }
+
+    public List<RadiusLevel> getRadiusLevels() {
+        return radiusLevels;
+    }
+
+    private double parseDouble(Object obj, double def) {
+        if (obj instanceof Number num) return num.doubleValue();
+        if (obj instanceof String str) {
+            try {
+                return Double.parseDouble(str);
+            } catch (NumberFormatException ignored) {}
+        }
+        return def;
     }
 
     @SuppressWarnings("unchecked")

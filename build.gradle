@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'com.flyaway.smartmobs'
-version = '1.0.0'
+version = '1.1.0'
 
 java {
     toolchain {
@@ -25,4 +25,14 @@ dependencies {
 
 tasks.jar {
     archiveBaseName.set("SmartMobs")
+}
+
+tasks.processResources {
+    filesMatching("plugin.yml") {
+        expand(
+            version: project.version,
+            name: project.name,
+            group: project.group
+        )
+    }
 }

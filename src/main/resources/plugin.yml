@@ -1,6 +1,6 @@
-name: SmartMobs
-main: com.flyaway.smartmobs.SmartMobs
-version: 1.0.0
+name: ${name}
+main: ${group}.SmartMobs
+version: ${version}
 api-version: 1.21
 author: FlyAwayMaking
 website: https://github.com/flyawaymaking
