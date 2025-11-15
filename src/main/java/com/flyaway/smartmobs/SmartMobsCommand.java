@@ -2,7 +2,6 @@ package com.flyaway.smartmobs;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.command.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -13,13 +12,11 @@ import java.util.*;
 
 public class SmartMobsCommand implements CommandExecutor, TabCompleter {
 
-    private final SmartMobs plugin;
     private final MobManager mobManager;
     private final ConfigManager configManager;
-    private final MiniMessage mm = MiniMessage.miniMessage();
+    private final MiniMessage miniMessage = MiniMessage.miniMessage();
 
     public SmartMobsCommand(SmartMobs plugin, MobManager mobManager, ConfigManager configManager) {
-        this.plugin = plugin;
         this.mobManager = mobManager;
         this.configManager = configManager;
     }
@@ -27,29 +24,29 @@ public class SmartMobsCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (!sender.hasPermission("smartmobs.use")) {
-            sender.sendMessage(mm.deserialize("<red>❌ У вас нет прав на использование этой команды."));
+            sendMessage(sender, "no-permission");
             return true;
         }
 
         if (args.length == 0) {
-            sender.sendMessage(mm.deserialize("<yellow>Использование: /smartmobs spawn <mob> <hardened|elite>"));
+            sendMessage(sender, "spawn-usage");
             return true;
         }
 
         switch (args[0].toLowerCase()) {
             case "spawn" -> {
                 if (!sender.hasPermission("smartmobs.spawn")) {
-                    sender.sendMessage(mm.deserialize("<red>❌ У вас нет прав на спавн мобов."));
+                    sendMessage(sender, "spawn-no-permission");
                     return true;
                 }
 
                 if (!(sender instanceof Player player)) {
-                    sender.sendMessage(mm.deserialize("<red>❌ Только игрок может спавнить мобов."));
+                    sendMessage(sender, "only-players");
                     return true;
                 }
 
                 if (args.length < 3) {
-                    sender.sendMessage(mm.deserialize("<red>❌ Использование: /smartmobs spawn <mob> <hardened|elite>"));
+                    sendMessage(sender, "spawn-usage");
                     return true;
                 }
 
@@ -57,7 +54,9 @@ public class SmartMobsCommand implements CommandExecutor, TabCompleter {
                 String variant = args[2].toLowerCase();
 
                 if (!configManager.isMobEnabled(mobTypeName)) {
-                    sender.sendMessage(mm.deserialize("<red>❌ Моб <white>" + mobTypeName + "</white> отключён в конфиге."));
+                    Map<String, String> placeholders = new HashMap<>();
+                    placeholders.put("mob", mobTypeName);
+                    sendMessage(sender, "spawn-mob-disabled", placeholders);
                     return true;
                 }
 
@@ -65,7 +64,9 @@ public class SmartMobsCommand implements CommandExecutor, TabCompleter {
                 try {
                     type = EntityType.valueOf(mobTypeName.toUpperCase());
                 } catch (IllegalArgumentException e) {
-                    sender.sendMessage(mm.deserialize("<red>❌ Неизвестный тип моба: <white>" + mobTypeName));
+                    Map<String, String> placeholders = new HashMap<>();
+                    placeholders.put("mob", mobTypeName);
+                    sendMessage(sender, "spawn-unknown-mob", placeholders);
                     return true;
                 }
 
@@ -73,7 +74,7 @@ public class SmartMobsCommand implements CommandExecutor, TabCompleter {
                 Entity spawned = player.getWorld().spawnEntity(loc, type);
 
                 if (!(spawned instanceof LivingEntity living)) {
-                    sender.sendMessage(mm.deserialize("<red>❌ Этот тип не является живым существом."));
+                    sendMessage(sender, "spawn-not-living");
                     spawned.remove();
                     return true;
                 }
@@ -82,29 +83,49 @@ public class SmartMobsCommand implements CommandExecutor, TabCompleter {
                     case "hardened" -> mobManager.makeHardened(living);
                     case "elite" -> mobManager.makeElite(living);
                     default -> {
-                        sender.sendMessage(mm.deserialize("<red>❌ Неизвестный вариант: <white>" + variant));
+                        Map<String, String> placeholders = new HashMap<>();
+                        placeholders.put("variant", variant);
+                        sendMessage(sender, "spawn-unknown-variant", placeholders);
                         spawned.remove();
                         return true;
                     }
                 }
 
-                sender.sendMessage(mm.deserialize("<green>✔ Заспавнен <yellow>" + variant + "</yellow> <gray>" + type.name().toLowerCase() + "</gray>."));
+                Map<String, String> placeholders = new HashMap<>();
+                placeholders.put("variant", variant);
+                placeholders.put("mob", type.name().toLowerCase());
+                sendMessage(sender, "spawn-success", placeholders);
                 return true;
             }
             case "reload" -> {
                 if (!sender.hasPermission("smartmobs.reload")) {
-                    sender.sendMessage(mm.deserialize("<red>❌ У вас нет прав на перезагрузку плагина."));
+                    sendMessage(sender, "reload-no-permission");
                     return true;
                 }
-                // логика перезагрузки конфига
                 configManager.reloadConfig();
-                sender.sendMessage(mm.deserialize("<green>✔ Конфиг SmartMobs перезагружен."));
+                sendMessage(sender, "reload-success");
                 return true;
             }
-            default -> sender.sendMessage(mm.deserialize("<red>❌ Неизвестная подкоманда."));
+            default -> sendMessage(sender, "unknown-subcommand");
         }
 
         return true;
+    }
+
+    private void sendMessage(CommandSender sender, String messageKey) {
+        sendMessage(sender, messageKey, Collections.emptyMap());
+    }
+
+    private void sendMessage(CommandSender sender, String messageKey, Map<String, String> placeholders) {
+        String message = configManager.getMessage(messageKey);
+        if (message != null && !message.isEmpty()) {
+            // Заменяем плейсхолдеры {key} на значения из Map
+            for (Map.Entry<String, String> entry : placeholders.entrySet()) {
+                String placeholder = "{" + entry.getKey() + "}";
+                message = message.replace(placeholder, entry.getValue());
+            }
+            sender.sendMessage(miniMessage.deserialize(message));
+        }
     }
 
     @Override
@@ -117,7 +138,6 @@ public class SmartMobsCommand implements CommandExecutor, TabCompleter {
         }
 
         if (args.length == 2 && args[0].equalsIgnoreCase("spawn") && sender.hasPermission("smartmobs.spawn")) {
-            // Показываем только мобов, включённых в конфиге
             return configManager.getEnabledMobTypes();
         }
 

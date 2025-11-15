@@ -1,6 +1,5 @@
 package com.flyaway.smartmobs;
 
-import org.bukkit.NamespacedKey;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.entity.*;
@@ -21,18 +20,19 @@ import java.util.Random;
 public class AbilityListener implements Listener {
     private final Random random = new Random();
 
-    public AbilityListener() {}
+    public AbilityListener() {
+    }
 
     // ========== SKELETON ==========
     @EventHandler
     public void onEntityShootBow(EntityShootBowEvent event) {
-        if (!(event.getEntity() instanceof Skeleton skeleton)) return;
+        if (!(event.getEntity() instanceof AbstractSkeleton skeleton)) return;
 
         PersistentDataContainer pdc = skeleton.getPersistentDataContainer();
 
         // Получаем множитель скорости
         Double speedMultiplier = pdc.get(MobKeys.ARROW_SPEED_MULTIPLIER, PersistentDataType.DOUBLE);
-        if (speedMultiplier != null && event.getProjectile() != null) {
+        if (speedMultiplier != null) {
             Vector velocity = applySpeedAndTrajectoryCorrection(skeleton, event.getProjectile().getVelocity(), speedMultiplier);
             event.getProjectile().setVelocity(velocity);
         }
@@ -66,7 +66,7 @@ public class AbilityListener implements Listener {
     }
 
     // Общий метод для коррекции скорости и траектории
-    private Vector applySpeedAndTrajectoryCorrection(Skeleton skeleton, Vector velocity, double speedMultiplier) {
+    private Vector applySpeedAndTrajectoryCorrection(AbstractSkeleton skeleton, Vector velocity, double speedMultiplier) {
         Vector result = velocity.clone().normalize().multiply(velocity.length() * speedMultiplier);
 
         LivingEntity target = skeleton.getTarget();
@@ -134,7 +134,7 @@ public class AbilityListener implements Listener {
 
         Double teleportRange = pdc.get(MobKeys.TELEPORT_RANGE, PersistentDataType.DOUBLE);
 
-        if (teleportRange != null) {
+        if (teleportRange != null && event.getTo() != null) {
             Vector dir = event.getTo().toVector().subtract(event.getFrom().toVector());
             event.setTo(event.getFrom().clone().add(dir.multiply(teleportRange)));
         }
@@ -145,7 +145,7 @@ public class AbilityListener implements Listener {
         if (!(event.getEntity() instanceof Enderman enderman)) return;
 
         if (event.getCause() == EntityDamageEvent.DamageCause.DROWNING ||
-            event.getCause() == EntityDamageEvent.DamageCause.CONTACT) {
+                event.getCause() == EntityDamageEvent.DamageCause.CONTACT) {
 
             // Проверяем, имеет ли эндермен иммунитет к воде
             if (!enderman.getPersistentDataContainer().has(MobKeys.WATER_RESISTANT, PersistentDataType.BYTE)) {
@@ -166,12 +166,12 @@ public class AbilityListener implements Listener {
         if (potionStrength != null) {
             for (PotionEffect effect : event.getPotion().getEffects()) {
                 PotionEffect newEffect = new PotionEffect(
-                    effect.getType(),
-                    Math.max(1, (int) (effect.getDuration() * potionStrength)),
-                    Math.max(0, (int) (effect.getAmplifier() * potionStrength)),
-                    effect.isAmbient(),
-                    effect.hasParticles(),
-                    effect.hasIcon()
+                        effect.getType(),
+                        Math.max(1, (int) (effect.getDuration() * potionStrength)),
+                        Math.max(0, (int) (effect.getAmplifier() * potionStrength)),
+                        effect.isAmbient(),
+                        effect.hasParticles(),
+                        effect.hasIcon()
                 );
                 for (LivingEntity le : event.getAffectedEntities()) le.addPotionEffect(newEffect);
             }
@@ -250,7 +250,7 @@ public class AbilityListener implements Listener {
         Double explosionPower = pdc.get(MobKeys.EXPLOSION_POWER, PersistentDataType.DOUBLE);
 
         if (fireballSpeed != null) proj.setVelocity(proj.getVelocity().multiply(fireballSpeed));
-        if (explosionPower != null) proj.setYield((float)(proj.getYield() * explosionPower));
+        if (explosionPower != null) proj.setYield((float) (proj.getYield() * explosionPower));
 
         if (!pdc.has(MobKeys.TRIPLE_SHOT, PersistentDataType.BYTE)) return;
 
@@ -283,8 +283,8 @@ public class AbilityListener implements Listener {
         right.setVelocity(rightVel);
 
         if (explosionPower != null) {
-            left.setYield((float)(left.getYield() * explosionPower));
-            right.setYield((float)(right.getYield() * explosionPower));
+            left.setYield((float) (left.getYield() * explosionPower));
+            right.setYield((float) (right.getYield() * explosionPower));
         }
     }
 

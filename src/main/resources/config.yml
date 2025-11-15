@@ -1,53 +1,99 @@
 # Настройки SmartMobs
+# Сообщения плагина
+messages:
+  # Общие сообщения
+  no-permission: "<red>❌ У вас нет прав на использование этой команды."
+  only-players: "<red>❌ Только игрок может спавнить мобов."
+  unknown-subcommand: "<red>❌ Неизвестная подкоманда."
+
+  # Команда spawn
+  spawn-usage: "<yellow>Использование: /smartmobs spawn <mob> <hardened|elite>"
+  spawn-no-permission: "<red>❌ У вас нет прав на спавн мобов."
+  spawn-mob-disabled: "<red>❌ Моб <white>{mob}</white> отключён в конфиге."
+  spawn-unknown-mob: "<red>❌ Неизвестный тип моба: <white>{mob}"
+  spawn-not-living: "<red>❌ Этот тип не является живым существом."
+  spawn-unknown-variant: "<red>❌ Неизвестный вариант: <white>{variant}"
+  spawn-success: "<green>✔ Заспавнен <yellow>{variant}</yellow> <gray>{mob}</gray>."
+
+  # Команда reload
+  reload-no-permission: "<red>❌ У вас нет прав на перезагрузку плагина."
+  reload-success: "<green>✔ Конфиг SmartMobs перезагружен."
+
 # Вероятности появления различных типов мобов
 chances:
-  hardened: 0.10 # Начальный шанс появления hardened моба
+  hardened: 0.05 # Начальный шанс появления hardened моба
   elite: 0.01 # Начальный шанс появления elite моба
-  radius-complication: false # Нужно ли увеличивать сложность мобов в зависимости от удаления от спавна
-  world-radius: 10000 # Радиус мира до которого происходит увеличение сложности
+  radius-complication: true # Нужно ли увеличивать сложность мобов в зависимости от удаления от спавна
+  world-radius: 15000 # Радиус мира до которого происходит увеличение сложности
   radius-levels:
     - from: 0.0 # начало зоны (0 = спавн)
-      to: 0.33 # конец зоны (0.33 = треть от world-radius)
-      hardened: 0.5 # шанс hardened при конце зоны
+      to: 0.2 # конец зоны (0.33 = треть от world-radius)
+      hardened: 0.3 # шанс hardened при конце зоны
       elite: 0.05 # шанс elite при конце зоны
-    - from: 0.33
-      to: 0.66
+    - from: 0.2
+      to: 0.4
       hardened: 0.5
-      elite: 0.5
-    - from: 0.66
-      to: 1.0
-      hardened: 0.2
-      elite: 0.8
+      elite: 0.15
+    - from: 0.4
+      to: 0.6
+      hardened: 0.7
+      elite: 0.3
+    - from: 0.6
+      to: 0.8
+      hardened: 0.4
+      elite: 0.6
+    - from: 0.8
+      to: 1
+      hardened: 0.0
+      elite: 1.0
 
 # Включить/выключить модификации для каждого моба
 enabled-mobs:
+  # ОСНОВНОЙ МИР - Нейтральные и пассивные
+  wolf: true
+  bee: true
+  iron_golem: true
+  snow_golem: true
+  rabbit: true
+  # ОСНОВНОЙ МИР - Враждебные
+  breeze: true
   zombie: true
+  zombie_villager: true
+  drowned: true
+  husk: true
   skeleton: true
+  stray: true
+  bogged: true
   creeper: true
   spider: true
-  enderman: true
-  witch: true
-  phantom: true
-  blaze: true
-  ghast: true
   cave_spider: true
   silverfish: true
+  enderman: true
   endermite: true
+  witch: true
+  phantom: true
   slime: true
+  # Рейды и лесные особняки
+  pillager: true
+  vindicator: true
+  evoker: true
+  illusioner: true
+  vex: true
+  ravager: true
+  # НИЖНИЙ МИР (АД)
+  blaze: true
+  ghast: true
   magma_cube: true
+  zombified_piglin: true
+  hoglin: true
+  zoglin: true
+  piglin: true
+  piglin_brute: true
+  wither_skeleton: true
+  # КРАЙ
   guardian: true
   elder_guardian: true
   shulker: true
-  vex: true
-  evoker: true
-  vindicator: true
-  pillager: true
-  ravager: true
-  hoglin: true
-  piglin: true
-  piglin_brute: true
-  zoglin: true
-  bogged: true
 
 # Базовые характеристики для мутировавших мобов
 hardened:
@@ -55,37 +101,54 @@ hardened:
   damage-multiplier: 1.25
   knockback-resistance: 0.5
   name-visible: true
-  show-duration: 3
 
   # Индивидуальные имена для каждого типа мобов
   display-names:
-    zombie: "§6Гниющий Странник"
-    skeleton: "§7Вечный Часовой"
-    creeper: "§2Испепеляющий Гость"
-    spider: "§8Шёлковый Убийца"
-    enderman: "§5Бездонный Скиталец"
-    witch: "§dБолотная Зельеварка"
-    phantom: "§8Ночной Кошмар"
-    blaze: "§6Огненный Дух"
-    ghast: "§fТуманный Призрак"
-    cave_spider: "§2Ядовитый Охотник"
-    silverfish: "§7Каменный Червец"
-    endermite: "§5Пространственная Блоха"
-    slime: "§aБолотная Слизь"
-    magma_cube: "§6Вулканическая Глыба"
-    guardian: "§3Глубинный Страж"
-    elder_guardian: "§1Древний Хранитель"
-    shulker: "§dРакушечный Защитник"
-    vex: "§8Эфирный Вредитель"
-    evoker: "§5Теневой Заклинатель"
-    vindicator: "§4Неумолимый Воин"
-    pillager: "§6Лесной Разбойник"
-    ravager: "§7Каменный Танк"
-    hoglin: "§4Адский Кабан"
-    piglin: "§6Золотоискатель"
-    piglin_brute: "§4Свирепый Громила"
-    zoglin: "§cИскажённый Зверь"
-    bogged: "§2Грибной Часовой"
+    # Основной мир - нейтральные
+    wolf: "<gray>Лунный Хищник"
+    bee: "<yellow>Жужжащий Убийца"
+    iron_golem: "<gray>Стальной Страж"
+    snow_golem: "<white>Морозный Голем"
+    rabbit: "<gold>Кролик-Убийца"
+    # Основной мир - враждебные
+    breeze: "<aqua>Лёгкий Бриз"
+    zombie: "<gold>Гниющий Странник"
+    zombie_villager: "<dark_green>Проклятый Житель"
+    drowned: "<dark_aqua>Морской Скиталец"
+    husk: "<gold>Песчаный Падальщик"
+    skeleton: "<gray>Вечный Часовой"
+    stray: "<gray>Мёрзлый Лучник"
+    bogged: "<dark_green>Грибной Часовой"
+    creeper: "<dark_green>Испепеляющий Гость"
+    spider: "<dark_gray>Шёлковый Убийца"
+    cave_spider: "<dark_green>Ядовитый Охотник"
+    silverfish: "<gray>Каменный Червец"
+    enderman: "<dark_purple>Бездонный Скиталец"
+    endermite: "<dark_purple>Пространственная Блоха"
+    witch: "<light_purple>Болотная Зельеварка"
+    phantom: "<dark_gray>Ночной Кошмар"
+    slime: "<green>Болотная Слизь"
+    # Рейды
+    pillager: "<gold>Лесной Разбойник"
+    vindicator: "<dark_red>Неумолимый Воин"
+    evoker: "<dark_purple>Теневой Заклинатель"
+    illusioner: "<dark_purple>Туманный Морок"
+    vex: "<dark_gray>Эфирный Вредитель"
+    ravager: "<gray>Каменный Танк"
+    # Нижний мир
+    blaze: "<gold>Огненный Дух"
+    ghast: "<white>Туманный Призрак"
+    magma_cube: "<gold>Вулканическая Глыба"
+    zombified_piglin: "<gold>Проклятый Торговец"
+    hoglin: "<dark_red>Адский Кабан"
+    zoglin: "<red>Искажённый Зверь"
+    piglin: "<gold>Золотоискатель"
+    piglin_brute: "<dark_red>Свирепый Громила"
+    wither_skeleton: "<dark_gray>Углистый Страж"
+    # Край
+    guardian: "<dark_aqua>Глубинный Страж"
+    elder_guardian: "<dark_blue>Древний Хранитель"
+    shulker: "<light_purple>Ракушечный Защитник"
 
 # Базовые характеристики для эволюционировавших мобов
 elite:
@@ -94,44 +157,86 @@ elite:
   speed-multiplier: 1.4
   knockback-resistance: 0.8
   name-visible: true
-  show-duration: 3
   strength:
     enabled: true
     level: 0
 
   # Индивидуальные имена для каждого типа мобов
   display-names:
-    zombie: "§4Порченый Бродяга"
-    skeleton: "§8Костяной Отзвук"
-    creeper: "§cГрозовой Разрыв"
-    spider: "§0Тенетный Властитель"
-    enderman: "§5Пространственный Разлом"
-    witch: "§5Теневая Колдунья"
-    phantom: "§8Эфирный Крик"
-    blaze: "§cАдское Ядро"
-    ghast: "§fНебесный Плач"
-    cave_spider: "§4Смертоносный Охотник"
-    silverfish: "§8Каменный Роевик"
-    endermite: "§dРазрывной Паразит"
-    slime: "§2Живая Слизь"
-    magma_cube: "§4Расплавленный Титан"
-    guardian: "§1Океанский Страж"
-    elder_guardian: "§5Древний Левиафан"
-    shulker: "§5Защитник Энда"
-    vex: "§7Призрачный Мучитель"
-    evoker: "§4Властитель Руин"
-    vindicator: "§cКровавый Воин"
-    pillager: "§4Предводитель Разбоя"
-    ravager: "§8Железный Танк"
-    hoglin: "§4Яростный Зверь"
-    piglin: "§6Барыга Бездны"
-    piglin_brute: "§4Свирепый Убийца"
-    zoglin: "§cИскажённый Ужас"
-    bogged: "§4Токсичный Грибник"
+    # Основной мир - нейтральные
+    wolf: "<dark_gray>Теневой Волк"
+    bee: "<red>Ядовитая Улейная Угроза"
+    iron_golem: "<dark_gray>Железный Колосс"
+    snow_golem: "<white>Ледяной Колосс"
+    rabbit: "<red>Элитный Кролик-Убийца"
+    # Основной мир - враждебные
+    breeze: "<dark_aqua>Бурный Бриз"
+    zombie: "<dark_red>Порченый Бродяга"
+    zombie_villager: "<dark_red>Осквернённый Старейшина"
+    drowned: "<blue>Глубинный Утопец"
+    husk: "<yellow>Опалённый Странник"
+    skeleton: "<dark_gray>Костяной Отзвук"
+    stray: "<aqua>Ледяной Призрак"
+    bogged: "<dark_red>Токсичный Грибник"
+    creeper: "<red>Грозовой Разрыв"
+    spider: "<black>Тенетный Властитель"
+    cave_spider: "<dark_red>Смертоносный Охотник"
+    silverfish: "<dark_gray>Каменный Роевик"
+    enderman: "<dark_purple>Пространственный Разлом"
+    endermite: "<light_purple>Разрывной Паразит"
+    witch: "<dark_purple>Теневая Колдунья"
+    phantom: "<dark_gray>Эфирный Крик"
+    slime: "<dark_green>Живая Слизь"
+    # Рейды
+    pillager: "<dark_red>Предводитель Разбоя"
+    vindicator: "<red>Кровавый Воин"
+    evoker: "<dark_red>Властитель Руин"
+    illusioner: "<light_purple>Повелитель Иллюзий"
+    vex: "<gray>Призрачный Мучитель"
+    ravager: "<dark_gray>Железный Танк"
+    # Нижний мир
+    blaze: "<red>Адское Ядро"
+    ghast: "<white>Небесный Плач"
+    magma_cube: "<dark_red>Расплавленный Титан"
+    zombified_piglin: "<dark_red>Проклятый Лорд"
+    hoglin: "<dark_red>Яростный Зверь"
+    zoglin: "<red>Искажённый Ужас"
+    piglin: "<gold>Барыга Бездны"
+    piglin_brute: "<dark_red>Свирепый Убийца"
+    wither_skeleton: "<black>Повелитель Пепла"
+    # Край
+    guardian: "<dark_blue>Океанский Страж"
+    elder_guardian: "<dark_purple>Древний Левиафан"
+    shulker: "<dark_purple>Защитник Энда"
 
 # Специфические способности для разных мобов
 special-abilities:
+  rabbit:
+    hardened:
+      killer: true
+    elite:
+      killer: true
+      jump-strength: 1.5
+
   skeleton:
+    hardened:
+      arrow-speed-multiplier: 1.4
+      attack-speed: 1.4
+    elite:
+      arrow-speed-multiplier: 1.8
+      attack-speed: 1.8
+      triple-shot: true
+
+  stray:
+    hardened:
+      arrow-speed-multiplier: 1.4
+      attack-speed: 1.4
+    elite:
+      arrow-speed-multiplier: 1.8
+      attack-speed: 1.8
+      triple-shot: true
+
+  bogged:
     hardened:
       arrow-speed-multiplier: 1.4
       attack-speed: 1.4
@@ -157,15 +262,6 @@ special-abilities:
       web-effect: true
       jump-strength: 1.8
       poison-bite: true
-
-  enderman:
-    hardened:
-      teleport-range: 1.5
-      teleport-cooldown: 0.8
-    elite:
-      teleport-range: 2.0
-      teleport-cooldown: 0.5
-      water-resistance: true
 
   witch:
     hardened:
@@ -202,3 +298,12 @@ special-abilities:
       explosion-multiplier: 2.5
       fireball-speed: 1.5
       triple-shot: true
+
+  enderman:
+    hardened:
+      teleport-range: 1.5
+      teleport-cooldown: 0.8
+    elite:
+      teleport-range: 2.0
+      teleport-cooldown: 0.5
+      water-resistance: true

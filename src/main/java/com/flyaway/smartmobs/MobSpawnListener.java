@@ -16,13 +16,11 @@ public class MobSpawnListener implements Listener {
     public void onMobSpawn(CreatureSpawnEvent event) {
         // Игнорируем спавн из яиц, порталов и т.д.
         CreatureSpawnEvent.SpawnReason reason = event.getSpawnReason();
-        if (reason == CreatureSpawnEvent.SpawnReason.SPAWNER_EGG ||
-            reason == CreatureSpawnEvent.SpawnReason.CUSTOM) {
+        if (reason == CreatureSpawnEvent.SpawnReason.SPAWNER_EGG || reason == CreatureSpawnEvent.SpawnReason.CUSTOM) {
             return;
         }
 
-        if (event.getEntity() instanceof org.bukkit.entity.LivingEntity) {
-            mobManager.enhanceMob((org.bukkit.entity.LivingEntity) event.getEntity());
-        }
+        event.getEntity();
+        mobManager.enhanceMob(event.getEntity());
     }
 }

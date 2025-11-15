@@ -22,7 +22,7 @@ public class SmartMobs extends JavaPlugin {
         registerEvents();
         registerCommands();
 
-        getLogger().info("SmartMobs v" + getDescription().getVersion() + " enabled!");
+        getLogger().info("SmartMobs v" + getPluginMeta().getVersion() + " enabled!");
         getLogger().info("Hardened chance: " + configManager.getHardenedChance());
         getLogger().info("Elite chance: " + configManager.getEliteChance());
     }

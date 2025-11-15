@@ -1,20 +1,16 @@
 package com.flyaway.smartmobs;
 
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ConfigManager {
 
     private FileConfiguration config;
-    private Map<EntityType, Boolean> enabledMobs = new HashMap<>();
-    private Map<String, Map<EntityType, String>> displayNames = new HashMap<>();
-    private Map<EntityType, Map<String, Object>> specialAbilities = new HashMap<>();
+    private final Map<EntityType, Boolean> enabledMobs = new HashMap<>();
+    private final Map<String, Map<EntityType, String>> displayNames = new HashMap<>();
+    private final Map<EntityType, Map<String, Object>> specialAbilities = new HashMap<>();
 
     // Вероятности
     private double hardenedChance = 0.15;
@@ -28,7 +24,6 @@ public class ConfigManager {
     private double hardenedDamageMultiplier = 1.25;
     private double hardenedKnockbackResistance = 0.5;
     private boolean hardenedNameVisible = true;
-    private int hardenedShowDuration = 3;
 
     // Множители для elite
     private double eliteHpMultiplier = 1.5;
@@ -36,7 +31,6 @@ public class ConfigManager {
     private double eliteSpeedMultiplier = 1.4;
     private double eliteKnockbackResistance = 0.8;
     private boolean eliteNameVisible = true;
-    private int eliteShowDuration = 3;
     private boolean eliteStrengthEnabled = true;
     private int eliteStrengthLevel = 0;
 
@@ -114,7 +108,6 @@ public class ConfigManager {
         hardenedDamageMultiplier = config.getDouble("hardened.damage-multiplier", hardenedDamageMultiplier);
         hardenedKnockbackResistance = config.getDouble("hardened.knockback-resistance", hardenedKnockbackResistance);
         hardenedNameVisible = config.getBoolean("hardened.name-visible", hardenedNameVisible);
-        hardenedShowDuration = config.getInt("hardened.show-duration", hardenedShowDuration);
     }
 
     private void loadEliteSettings() {
@@ -124,7 +117,6 @@ public class ConfigManager {
         eliteSpeedMultiplier = config.getDouble("elite.speed-multiplier", eliteSpeedMultiplier);
         eliteKnockbackResistance = config.getDouble("elite.knockback-resistance", eliteKnockbackResistance);
         eliteNameVisible = config.getBoolean("elite.name-visible", eliteNameVisible);
-        eliteShowDuration = config.getInt("elite.show-duration", eliteShowDuration);
         eliteStrengthEnabled = config.getBoolean("elite.strength.enabled", eliteStrengthEnabled);
         eliteStrengthLevel = config.getInt("elite.strength.level", eliteStrengthLevel);
     }
@@ -190,9 +182,22 @@ public class ConfigManager {
     }
 
     // Getters
-    public double getHardenedChance() { return hardenedChance; }
-    public double getEliteChance() { return eliteChance; }
-    public boolean isMobEnabled(EntityType type) { return enabledMobs.getOrDefault(type, false); }
+    public double getHardenedChance() {
+        return hardenedChance;
+    }
+
+    public double getEliteChance() {
+        return eliteChance;
+    }
+
+    public boolean isMobEnabled(EntityType type) {
+        return enabledMobs.getOrDefault(type, false);
+    }
+
+    public String getMessage(String key) {
+        return config.getString("messages." + key, "message-not-found: " + key);
+    }
+
     public boolean isMobEnabled(String mobName) {
         if (mobName == null) return false;
 
@@ -204,19 +209,42 @@ public class ConfigManager {
             return false;
         }
     }
-    public double getHardenedHpMultiplier() { return hardenedHpMultiplier; }
-    public double getHardenedDamageMultiplier() { return hardenedDamageMultiplier; }
-    public double getHardenedKnockbackResistance() { return hardenedKnockbackResistance; }
-    public boolean isHardenedNameVisible() { return hardenedNameVisible; }
-    public int getHardenedShowDuration() { return hardenedShowDuration; }
-    public double getEliteHpMultiplier() { return eliteHpMultiplier; }
-    public double getEliteDamageMultiplier() { return eliteDamageMultiplier; }
-    public double getEliteSpeedMultiplier() { return eliteSpeedMultiplier; }
-    public double getEliteKnockbackResistance() { return eliteKnockbackResistance; }
-    public boolean isEliteNameVisible() { return eliteNameVisible; }
-    public int getEliteShowDuration() { return eliteShowDuration; }
-    public boolean isEliteStrengthEnabled() { return eliteStrengthEnabled; }
-    public int getEliteStrengthLevel() { return eliteStrengthLevel; }
+
+    public double getHardenedHpMultiplier() {
+        return hardenedHpMultiplier;
+    }
+
+    public double getHardenedDamageMultiplier() {
+        return hardenedDamageMultiplier;
+    }
+
+    public double getHardenedKnockbackResistance() {
+        return hardenedKnockbackResistance;
+    }
+
+    public double getEliteHpMultiplier() {
+        return eliteHpMultiplier;
+    }
+
+    public double getEliteDamageMultiplier() {
+        return eliteDamageMultiplier;
+    }
+
+    public double getEliteSpeedMultiplier() {
+        return eliteSpeedMultiplier;
+    }
+
+    public double getEliteKnockbackResistance() {
+        return eliteKnockbackResistance;
+    }
+
+    public boolean isEliteStrengthEnabled() {
+        return eliteStrengthEnabled;
+    }
+
+    public int getEliteStrengthLevel() {
+        return eliteStrengthLevel;
+    }
 
     public List<String> getEnabledMobTypes() {
         List<String> result = new ArrayList<>();
@@ -229,7 +257,14 @@ public class ConfigManager {
         return result;
     }
 
+    public boolean isNameVisible(String type) {
+        if (Objects.equals(type, "hardened")) return hardenedNameVisible;
+        else if (Objects.equals(type, "elite")) return eliteNameVisible;
+        return false;
+    }
+
     public String getDisplayName(String type, EntityType mobType) {
+        if (!isNameVisible(type)) return null;
         Map<EntityType, String> names = displayNames.get(type);
         return names != null ? names.get(mobType) : null;
     }
@@ -265,7 +300,8 @@ public class ConfigManager {
         if (obj instanceof String str) {
             try {
                 return Double.parseDouble(str);
-            } catch (NumberFormatException ignored) {}
+            } catch (NumberFormatException ignored) {
+            }
         }
         return def;
     }
