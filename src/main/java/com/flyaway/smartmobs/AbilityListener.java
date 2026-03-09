@@ -25,19 +25,17 @@ public class AbilityListener implements Listener {
 
     // ========== SKELETON ==========
     @EventHandler
-    public void onEntityShootBow(EntityShootBowEvent event) {
+    public void onSkeletonBow(EntityShootBowEvent event) {
         if (!(event.getEntity() instanceof AbstractSkeleton skeleton)) return;
 
         PersistentDataContainer pdc = skeleton.getPersistentDataContainer();
 
-        // Получаем множитель скорости
         Double speedMultiplier = pdc.get(MobKeys.ARROW_SPEED_MULTIPLIER, PersistentDataType.DOUBLE);
         if (speedMultiplier != null) {
             Vector velocity = applySpeedAndTrajectoryCorrection(skeleton, event.getProjectile().getVelocity(), speedMultiplier);
             event.getProjectile().setVelocity(velocity);
         }
 
-        // TRIPLE SHOT
         if (pdc.has(MobKeys.TRIPLE_SHOT, PersistentDataType.BYTE)) {
             final Double finalMultiplier = speedMultiplier;
 
@@ -50,10 +48,8 @@ public class AbilityListener implements Listener {
                     for (int i = 0; i < 2; i++) {
                         Arrow extraArrow = skeleton.launchProjectile(Arrow.class);
 
-                        // Создаём небольшой горизонтальный разброс
                         Vector spread = baseVelocity.clone().rotateAroundY((i == 0 ? 0.08 : -0.08));
 
-                        // Применяем коррекцию траектории к дополнительным стрелам
                         if (finalMultiplier != null) {
                             spread = applySpeedAndTrajectoryCorrection(skeleton, spread, finalMultiplier);
                         }
@@ -65,7 +61,6 @@ public class AbilityListener implements Listener {
         }
     }
 
-    // Общий метод для коррекции скорости и траектории
     private Vector applySpeedAndTrajectoryCorrection(AbstractSkeleton skeleton, Vector velocity, double speedMultiplier) {
         Vector result = velocity.clone().normalize().multiply(velocity.length() * speedMultiplier);
 
@@ -74,9 +69,8 @@ public class AbilityListener implements Listener {
             Vector diff = target.getEyeLocation().toVector().subtract(skeleton.getEyeLocation().toVector());
             double distance = diff.length();
 
-            // Добавляем корректировку Y по формуле с учётом гравитации стрелы
             double gravity = 0.05;
-            double time = distance / (velocity.length() * speedMultiplier); // время полёта
+            double time = distance / (velocity.length() * speedMultiplier);
             result.setY(diff.getY() / time + 0.5 * gravity * time);
         }
 
@@ -147,7 +141,6 @@ public class AbilityListener implements Listener {
         if (event.getCause() == EntityDamageEvent.DamageCause.DROWNING ||
                 event.getCause() == EntityDamageEvent.DamageCause.CONTACT) {
 
-            // Проверяем, имеет ли эндермен иммунитет к воде
             if (!enderman.getPersistentDataContainer().has(MobKeys.WATER_RESISTANT, PersistentDataType.BYTE)) {
                 return;
             }
@@ -191,7 +184,6 @@ public class AbilityListener implements Listener {
         ProjectileSource shooter = proj.getShooter();
         if (!(shooter instanceof Blaze blaze)) return;
 
-        // Пропускаем фаерболы, созданные нашим кодом
         PersistentDataContainer projPdc = proj.getPersistentDataContainer();
         if (projPdc.has(MobKeys.EXTRA_PROJECTILE, PersistentDataType.BYTE)) return;
 
@@ -206,7 +198,7 @@ public class AbilityListener implements Listener {
         if (fireballCount == null || fireballCount <= 1) return;
 
         Vector baseDir = proj.getVelocity().clone().normalize();
-        Location spawnLoc = proj.getLocation().add(baseDir.multiply(0.5)); // чуть впереди от ифрита
+        Location spawnLoc = proj.getLocation().add(baseDir.multiply(0.5));
         final double baseSpeed = proj.getVelocity().length();
 
         for (int i = 1; i < fireballCount; i++) {
@@ -219,7 +211,6 @@ public class AbilityListener implements Listener {
 
                     Vector spread = baseDir.clone().add(randomSpreadVector(0.15)).normalize();
 
-                    // Спавним вручную, чтобы метку успеть поставить ДО того, как сработает событие
                     SmallFireball extra = (SmallFireball) blaze.getWorld().spawnEntity(spawnLoc, EntityType.SMALL_FIREBALL);
                     extra.getPersistentDataContainer().set(MobKeys.EXTRA_PROJECTILE, PersistentDataType.BYTE, (byte) 1);
                     extra.setShooter(blaze);
@@ -242,7 +233,6 @@ public class AbilityListener implements Listener {
         ProjectileSource shooter = proj.getShooter();
         if (!(shooter instanceof Ghast ghast)) return;
 
-        // Пропускаем дополнительные снаряды, чтобы избежать рекурсии
         if (proj.getPersistentDataContainer().has(MobKeys.EXTRA_PROJECTILE, PersistentDataType.BYTE)) return;
 
         PersistentDataContainer pdc = ghast.getPersistentDataContainer();
@@ -260,19 +250,15 @@ public class AbilityListener implements Listener {
         double spreadAmount = 0.3;
         Location spawnLoc = proj.getLocation().add(baseDir);
 
-        // Левый и правый снаряды через spawnEntity
         LargeFireball left = (LargeFireball) ghast.getWorld().spawnEntity(spawnLoc.clone().add(perpendicular.clone().multiply(spreadAmount)), EntityType.FIREBALL);
         LargeFireball right = (LargeFireball) ghast.getWorld().spawnEntity(spawnLoc.clone().subtract(perpendicular.clone().multiply(spreadAmount)), EntityType.FIREBALL);
 
-        // Ставим метку сразу
         left.getPersistentDataContainer().set(MobKeys.EXTRA_PROJECTILE, PersistentDataType.BYTE, (byte) 1);
         right.getPersistentDataContainer().set(MobKeys.EXTRA_PROJECTILE, PersistentDataType.BYTE, (byte) 1);
 
-        // Назначаем стрелка
         left.setShooter(ghast);
         right.setShooter(ghast);
 
-        // Устанавливаем направления и модификаторы
         Vector leftVel = baseDir.clone().add(perpendicular.clone().multiply(spreadAmount)).normalize().multiply(baseSpeed);
         Vector rightVel = baseDir.clone().subtract(perpendicular.clone().multiply(spreadAmount)).normalize().multiply(baseSpeed);
         if (fireballSpeed != null) {

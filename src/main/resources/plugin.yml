@@ -1,5 +1,5 @@
 name: ${name}
-main: ${group}.SmartMobs
+main: ${group}.${name}
 version: ${version}
 api-version: 1.21
 author: FlyAwayMaking

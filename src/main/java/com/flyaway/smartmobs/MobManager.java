@@ -34,7 +34,6 @@ public class MobManager {
         if (configManager.isRadiusComplicationEnabled()) {
             double worldRadius = configManager.getWorldRadius();
 
-            // Безопасность: worldRadius должен быть > 0
             if (worldRadius >= 0) {
                 double distance = entity.getWorld().getSpawnLocation().distance(entity.getLocation());
                 double normalized = Math.min(distance / worldRadius, 1.0);
@@ -45,7 +44,6 @@ public class MobManager {
                 if (levels != null && !levels.isEmpty()) {
                     boolean found = false;
                     for (ConfigManager.RadiusLevel level : levels) {
-                        // Нормализованные границы должны быть валидными; если level.to < level.from — пропускаем
                         if (level.to < level.from) {
                             continue;
                         }
@@ -53,7 +51,6 @@ public class MobManager {
                         if (normalized >= level.from && normalized <= level.to) {
                             double denom = (level.to - level.from);
                             double factor = denom <= 0.0 ? 0.0 : (normalized - level.from) / denom;
-                            // интерполируем от базовых значений к значениям уровня
                             hardenedChance = interpolate(configManager.getHardenedChance(), level.hardened, factor);
                             eliteChance = interpolate(configManager.getEliteChance(), level.elite, factor);
                             found = true;
@@ -61,15 +58,12 @@ public class MobManager {
                         }
                     }
 
-                    // Если не нашли подходящий уровень:
                     if (!found) {
-                        // если за пределом (normalized >= 1.0) — используем последний уровень как "максимальный"
                         if (normalized >= 1.0) {
                             ConfigManager.RadiusLevel last = levels.getLast();
                             hardenedChance = last.hardened;
                             eliteChance = last.elite;
                         } else {
-                            // иначе — логируем, что ни один уровень не подошёл (возможен разрыв в уровнях)
                             logger.warning(String.format("[SmartMobs] Не найден уровень для normalized=%.4f. Проверь radius-levels в конфиge.", normalized));
                         }
                     }
@@ -155,6 +149,12 @@ public class MobManager {
                     Math.max(0, configManager.getEliteStrengthLevel()), true, false, false));
         }
 
+        if (entity instanceof AbstractHorse horse) {
+            horse.setTamed(true);
+            horse.setAdult();
+            horse.setAI(true);
+        }
+
         setDisplayName(entity, variant);
     }
 
@@ -174,12 +174,14 @@ public class MobManager {
     }
 
     private void applyAbility(LivingEntity entity, String key, Object value) {
+        if (key.equals("jump-strength")) {
+            applyJumpStrength(entity, value);
+        }
+        if (entity instanceof AbstractSkeleton skeleton) {
+            applySkeletonAbility(skeleton, key, value);
+            return;
+        }
         switch (entity.getType()) {
-            case SKELETON:
-            case STRAY:
-            case BOGGED:
-                applySkeletonAbility(entity, key, value);
-                break;
             case CREEPER:
                 applyCreeperAbility((Creeper) entity, key, value);
                 break;
@@ -210,29 +212,26 @@ public class MobManager {
         }
     }
 
-    // ===================== MOB-SPECIFIC ABILITY METHODS =====================
-    private void applySkeletonAbility(LivingEntity skeleton, String key, Object value) {
-        if (!(skeleton instanceof AbstractSkeleton skeletonEntity)) return;
-
+    private void applySkeletonAbility(AbstractSkeleton skeleton, String key, Object value) {
         switch (key) {
             case "arrow-speed-multiplier":
                 double speedMultiplier = getDoubleFromConfig(value);
-                skeletonEntity.getPersistentDataContainer().set(
+                skeleton.getPersistentDataContainer().set(
                         MobKeys.ARROW_SPEED_MULTIPLIER,
                         PersistentDataType.DOUBLE,
                         speedMultiplier
                 );
                 break;
             case "attack-speed":
-                if (skeletonEntity.getAttribute(Attribute.ATTACK_SPEED) != null) {
+                if (skeleton.getAttribute(Attribute.ATTACK_SPEED) != null) {
                     double attackSpeedMultiplier = getDoubleFromConfig(value);
-                    double baseSpeed = skeletonEntity.getAttribute(Attribute.ATTACK_SPEED).getBaseValue();
-                    skeletonEntity.getAttribute(Attribute.ATTACK_SPEED).setBaseValue(baseSpeed * attackSpeedMultiplier);
+                    double baseSpeed = skeleton.getAttribute(Attribute.ATTACK_SPEED).getBaseValue();
+                    skeleton.getAttribute(Attribute.ATTACK_SPEED).setBaseValue(baseSpeed * attackSpeedMultiplier);
                 }
                 break;
             case "triple-shot":
                 if (Boolean.TRUE.equals(value)) {
-                    skeletonEntity.getPersistentDataContainer().set(
+                    skeleton.getPersistentDataContainer().set(
                             MobKeys.TRIPLE_SHOT,
                             PersistentDataType.BYTE,
                             (byte) 1
@@ -264,12 +263,6 @@ public class MobManager {
 
     private void applySpiderAbility(Spider spider, String key, Object value) {
         switch (key) {
-            case "jump-strength":
-                if (spider.getAttribute(Attribute.JUMP_STRENGTH) != null) {
-                    double base = spider.getAttribute(Attribute.JUMP_STRENGTH).getBaseValue();
-                    spider.getAttribute(Attribute.JUMP_STRENGTH).setBaseValue(base * getDoubleFromConfig(value));
-                }
-                break;
             case "web-effect":
                 if (Boolean.TRUE.equals(value)) {
                     spider.getPersistentDataContainer().set(
@@ -346,12 +339,6 @@ public class MobManager {
 
     private void applyPhantomAbility(Phantom phantom, String key, Object value) {
         switch (key) {
-            case "swoop-speed":
-                if (phantom.getAttribute(Attribute.MOVEMENT_SPEED) != null) {
-                    double base = phantom.getAttribute(Attribute.MOVEMENT_SPEED).getBaseValue();
-                    phantom.getAttribute(Attribute.MOVEMENT_SPEED).setBaseValue(base * getDoubleFromConfig(value));
-                }
-                break;
             case "attack-cooldown":
                 if (phantom.getAttribute(Attribute.ATTACK_SPEED) != null) {
                     double baseAttackSpeed = phantom.getAttribute(Attribute.ATTACK_SPEED).getBaseValue();
@@ -423,23 +410,17 @@ public class MobManager {
     }
 
     private void applyRabbitAbility(Rabbit rabbit, String key, Object value) {
-        switch (key) {
-            case "killer":
-                if (Boolean.TRUE.equals(value)) {
-                    // Делаем кролика агрессивным и увеличиваем урон
-                    rabbit.setRabbitType(Rabbit.Type.THE_KILLER_BUNNY);
-                    if (rabbit.getAttribute(Attribute.ATTACK_DAMAGE) != null) {
-                        double base = rabbit.getAttribute(Attribute.ATTACK_DAMAGE).getBaseValue();
-                        rabbit.getAttribute(Attribute.ATTACK_DAMAGE).setBaseValue(base * 3.0);
-                    }
-                }
-                break;
-            case "jump-strength":
-                if (rabbit.getAttribute(Attribute.JUMP_STRENGTH) != null) {
-                    double base = rabbit.getAttribute(Attribute.JUMP_STRENGTH).getBaseValue();
-                    rabbit.getAttribute(Attribute.JUMP_STRENGTH).setBaseValue(base * getDoubleFromConfig(value));
-                }
-                break;
+        if (key.equals("killer")) {
+            if (Boolean.TRUE.equals(value)) {
+                rabbit.setRabbitType(Rabbit.Type.THE_KILLER_BUNNY);
+            }
+        }
+    }
+
+    private void applyJumpStrength(LivingEntity entity, Object value) {
+        if (entity.getAttribute(Attribute.JUMP_STRENGTH) != null) {
+            double base = entity.getAttribute(Attribute.JUMP_STRENGTH).getBaseValue();
+            entity.getAttribute(Attribute.JUMP_STRENGTH).setBaseValue(base * getDoubleFromConfig(value));
         }
     }
 

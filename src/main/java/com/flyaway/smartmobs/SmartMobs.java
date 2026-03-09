@@ -13,7 +13,6 @@ public class SmartMobs extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
-        // Синхронная инициализация (без гонок)
         this.configManager = new ConfigManager();
         this.configManager.loadConfig();
 

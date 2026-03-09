@@ -12,20 +12,17 @@ public class ConfigManager {
     private final Map<String, Map<EntityType, String>> displayNames = new HashMap<>();
     private final Map<EntityType, Map<String, Object>> specialAbilities = new HashMap<>();
 
-    // Вероятности
     private double hardenedChance = 0.15;
     private double eliteChance = 0.05;
     private boolean radiusComplication = false;
     private double worldRadius = 10000;
     List<RadiusLevel> radiusLevels = new ArrayList<>();
 
-    // Множители для hardened
     private double hardenedHpMultiplier = 1.25;
     private double hardenedDamageMultiplier = 1.25;
     private double hardenedKnockbackResistance = 0.5;
     private boolean hardenedNameVisible = true;
 
-    // Множители для elite
     private double eliteHpMultiplier = 1.5;
     private double eliteDamageMultiplier = 1.5;
     private double eliteSpeedMultiplier = 1.4;
@@ -96,8 +93,7 @@ public class ConfigManager {
                 EntityType type = EntityType.valueOf(mobKey.toUpperCase());
                 boolean enabled = config.getBoolean("enabled-mobs." + mobKey, true);
                 enabledMobs.put(type, enabled);
-            } catch (IllegalArgumentException e) {
-                SmartMobs.getInstance().getLogger().warning("Unknown entity type in config: " + mobKey);
+            } catch (IllegalArgumentException ignored) {
             }
         }
     }
@@ -125,7 +121,6 @@ public class ConfigManager {
         displayNames.clear();
         if (config == null) return;
 
-        // Hardened names
         Map<EntityType, String> hardenedNames = new HashMap<>();
         if (config.getConfigurationSection("hardened.display-names") != null) {
             for (String mobKey : config.getConfigurationSection("hardened.display-names").getKeys(false)) {
@@ -133,14 +128,12 @@ public class ConfigManager {
                     EntityType type = EntityType.valueOf(mobKey.toUpperCase());
                     String name = config.getString("hardened.display-names." + mobKey);
                     hardenedNames.put(type, name);
-                } catch (IllegalArgumentException e) {
-                    // Ignore unknown types
+                } catch (IllegalArgumentException ignored) {
                 }
             }
         }
         displayNames.put("hardened", hardenedNames);
 
-        // Elite names
         Map<EntityType, String> eliteNames = new HashMap<>();
         if (config.getConfigurationSection("elite.display-names") != null) {
             for (String mobKey : config.getConfigurationSection("elite.display-names").getKeys(false)) {
@@ -148,15 +141,13 @@ public class ConfigManager {
                     EntityType type = EntityType.valueOf(mobKey.toUpperCase());
                     String name = config.getString("elite.display-names." + mobKey);
                     eliteNames.put(type, name);
-                } catch (IllegalArgumentException e) {
-                    // Ignore unknown types
+                } catch (IllegalArgumentException ignored) {
                 }
             }
         }
         displayNames.put("elite", eliteNames);
     }
 
-    @SuppressWarnings("unchecked")
     private void loadSpecialAbilities() {
         specialAbilities.clear();
         if (config == null) return;
@@ -175,13 +166,11 @@ public class ConfigManager {
                 }
 
                 specialAbilities.put(type, abilities);
-            } catch (IllegalArgumentException e) {
-                // Ignore unknown types
+            } catch (IllegalArgumentException ignored) {
             }
         }
     }
 
-    // Getters
     public double getHardenedChance() {
         return hardenedChance;
     }
@@ -205,7 +194,6 @@ public class ConfigManager {
             EntityType type = EntityType.valueOf(mobName.toUpperCase());
             return enabledMobs.getOrDefault(type, false);
         } catch (IllegalArgumentException e) {
-            SmartMobs.getInstance().getLogger().warning("[SmartMobs] isMobEnabled: неизвестный тип моба " + mobName);
             return false;
         }
     }
@@ -306,7 +294,6 @@ public class ConfigManager {
         return def;
     }
 
-    @SuppressWarnings("unchecked")
     public Map<String, Object> getSpecialAbilities(EntityType mobType, String variant) {
         Map<String, Object> abilities = specialAbilities.get(mobType);
         if (abilities != null && abilities.containsKey(variant)) {

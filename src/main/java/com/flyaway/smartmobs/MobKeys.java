@@ -14,6 +14,5 @@ public class MobKeys {
     public static final NamespacedKey POTION_STRENGTH = new NamespacedKey(SmartMobs.getInstance(), "potion_strength");
     public static final NamespacedKey HEALING_CHANCE = new NamespacedKey(SmartMobs.getInstance(), "healing_chance");
     public static final NamespacedKey WATER_RESISTANT = new NamespacedKey(SmartMobs.getInstance(), "water_resistant");
-    // Для пометки дополнительных снарядов (общие)
     public static final NamespacedKey EXTRA_PROJECTILE = new NamespacedKey(SmartMobs.getInstance(), "extra_projectile");
 }
