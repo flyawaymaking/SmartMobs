@@ -1,0 +1,388 @@
+# Настройки SmartMobs
+# Сообщения плагина
+messages:
+  # Общие сообщения
+  no-permission: "<red>❌ У вас нет прав на использование этой команды."
+  only-players: "<red>❌ Только игрок может спавнить мобов."
+  unknown-subcommand: "<red>❌ Неизвестная подкоманда."
+
+  # Команда spawn
+  spawn-usage: "<yellow>Использование: /smartmobs spawn <mob> <hardened|elite>"
+  spawn-no-permission: "<red>❌ У вас нет прав на спавн мобов."
+  spawn-mob-disabled: "<red>❌ Моб <white>{mob}</white> отключён в конфиге."
+  spawn-unknown-mob: "<red>❌ Неизвестный тип моба: <white>{mob}"
+  spawn-not-living: "<red>❌ Этот тип не является живым существом."
+  spawn-unknown-variant: "<red>❌ Неизвестный вариант: <white>{variant}"
+  spawn-success: "<green>✔ Заспавнен <yellow>{variant}</yellow> <gray>{mob}</gray>."
+
+  # Команда reload
+  reload-no-permission: "<red>❌ У вас нет прав на перезагрузку плагина."
+  reload-success: "<green>✔ Конфиг SmartMobs перезагружен."
+
+# Вероятности появления различных типов мобов
+chances:
+  hardened: 0.05 # Начальный шанс появления hardened моба
+  elite: 0.01 # Начальный шанс появления elite моба
+  radius-complication: true # Нужно ли увеличивать сложность мобов в зависимости от удаления от спавна
+  world-radius: 15000 # Радиус мира до которого происходит увеличение сложности
+  radius-levels:
+    - from: 0.0 # начало зоны (0 = спавн)
+      to: 0.2 # конец зоны (0.33 = треть от world-radius)
+      hardened: 0.2 # шанс hardened при конце зоны
+      elite: 0.02 # шанс elite при конце зоны
+    - from: 0.2
+      to: 0.4
+      hardened: 0.4
+      elite: 0.1
+    - from: 0.4
+      to: 0.6
+      hardened: 0.6
+      elite: 0.2
+    - from: 0.6
+      to: 0.8
+      hardened: 0.3
+      elite: 0.5
+    - from: 0.8
+      to: 1
+      hardened: 0.0
+      elite: 1.0
+
+# Включить/выключить модификации для каждого моба
+enabled-mobs:
+  # ОСНОВНОЙ МИР - нейтральные и мирные
+  allay: true
+  axolotl: true
+  bee: true
+  camel: true
+  camel_husk: true
+  cat: true
+  fox: true
+  horse: true
+  iron_golem: true
+  llama: true
+  nautilus: true
+  ocelot: true
+  polar_bear: true
+  rabbit: true
+  skeleton_horse: true
+  snow_golem: true
+  sulfur_cube: true
+  wolf: true
+  zombie_horse: true
+  # ОСНОВНОЙ МИР - Враждебные
+  bogged: true
+  breeze: true
+  cave_spider: true
+  creeper: true
+  creaking: true
+  drowned: true
+  elder_guardian: true
+  guardian: true
+  husk: true
+  parched: true
+  phantom: true
+  skeleton: true
+  slime: true
+  spider: true
+  stray: true
+  witch: true
+  zombie: true
+  zombie_nautilus: true
+  zombie_villager: true
+  # Рейды и лесные особняки
+  evoker: true
+  illusioner: true
+  pillager: true
+  ravager: true
+  vex: true
+  vindicator: true
+  # НИЖНИЙ МИР (АД)
+  blaze: true
+  ghast: true
+  hoglin: true
+  magma_cube: true
+  piglin: true
+  piglin_brute: true
+  strider: true
+  wither: true
+  wither_skeleton: true
+  zoglin: true
+  zombified_piglin: true
+  # КРАЙ
+  ender_dragon: true
+  enderman: true
+  endermite: true
+  shulker: true
+
+# Базовые характеристики для мутировавших мобов
+hardened:
+  hp-multiplier: 1.25
+  damage-multiplier: 1.25
+  knockback-resistance: 0.5
+  name-visible: true
+
+  # Индивидуальные имена для каждого типа мобов
+  display-names:
+    # Основной мир - нейтральные и мирные
+    allay: "<aqua>Хранитель Мелодий"
+    axolotl: "<aqua>Амфибийный Убийца"
+    bee: "<yellow>Жужжащий Убийца"
+    cat: "<gray>Ночной Кошмар"
+    camel: "<gold>Боевой Верблюд"
+    camel_husk: "<gold>Боевой Верблюд-Нежить"
+    fox: "<red>Хитрый Лис"
+    horse: "<gold>Боевая Лошадь"
+    iron_golem: "<gray>Стальной Страж"
+    llama: "<gold>Опасная Лама"
+    nautilus: "<aqua>Боевой Наутилус"
+    ocelot: "<dark_gray>Дикий Оцелот"
+    polar_bear: "<white>Белый Хищник"
+    rabbit: "<gold>Кролик-Убийца"
+    skeleton_horse: "<gray>Костяная Лошадь"
+    snow_golem: "<white>Морозный Голем"
+    sulfur_cube: "<yellow>Серный Куб"
+    wolf: "<gray>Лунный Хищник"
+    zombie_horse: "<red>Зомби Лошадь"
+    # Основной мир - враждебные
+    bogged: "<dark_green>Грибной Часовой"
+    breeze: "<aqua>Лёгкий Бриз"
+    cave_spider: "<dark_green>Ядовитый Охотник"
+    creeper: "<dark_green>Испепеляющий Гость"
+    creaking: "<dark_gray>Скрипучий Страж"
+    drowned: "<dark_aqua>Морской Скиталец"
+    elder_guardian: "<dark_blue>Древний Хранитель"
+    guardian: "<dark_aqua>Глубинный Страж"
+    husk: "<gold>Песчаный Падальщик"
+    parched: "<gold>Пустынный Страж"
+    phantom: "<dark_gray>Ночной Кошмар"
+    skeleton: "<gray>Вечный Часовой"
+    silverfish: "<gray>Каменный Червец"
+    slime: "<green>Болотная Слизь"
+    spider: "<dark_gray>Шёлковый Убийца"
+    stray: "<gray>Мёрзлый Лучник"
+    witch: "<light_purple>Болотная Зельеварка"
+    zombie: "<gold>Гниющий Странник"
+    zombie_nautilus: "<dark_aqua>Гнилой Наутилус"
+    zombie_villager: "<dark_green>Проклятый Житель"
+    # Рейды
+    evoker: "<dark_purple>Теневой Заклинатель"
+    illusioner: "<dark_purple>Туманный Морок"
+    pillager: "<gold>Лесной Разбойник"
+    ravager: "<gray>Каменный Танк"
+    vex: "<dark_gray>Эфирный Вредитель"
+    vindicator: "<dark_red>Неумолимый Воин"
+    # Нижний мир
+    blaze: "<gold>Огненный Дух"
+    ghast: "<white>Туманный Призрак"
+    hoglin: "<dark_red>Адский Кабан"
+    magma_cube: "<gold>Вулканическая Глыба"
+    piglin: "<gold>Золотоискатель"
+    piglin_brute: "<dark_red>Свирепый Громила"
+    strider: "<red>Лавомерка"
+    wither: "<black>Визер"
+    wither_skeleton: "<dark_gray>Углистый Страж"
+    zoglin: "<red>Искажённый Зверь"
+    zombified_piglin: "<gold>Проклятый Торговец"
+    # Край
+    ender_dragon: "<dark_purple>Дракон Энда"
+    enderman: "<dark_purple>Бездонный Скиталец"
+    endermite: "<dark_purple>Пространственная Блоха"
+    shulker: "<light_purple>Ракушечный Защитник"
+
+# Базовые характеристики для эволюционировавших мобов
+elite:
+  hp-multiplier: 1.5
+  damage-multiplier: 1.5
+  speed-multiplier: 1.4
+  knockback-resistance: 0.8
+  name-visible: true
+  strength:
+    enabled: true
+    level: 0
+
+  # Индивидуальные имена для каждого типа мобов
+  display-names:
+    # Основной мир - нейтральные и мирные
+    allay: "<dark_aqua>Хранитель Грёз"
+    axolotl: "<aqua>Амфибийный Монстр"
+    bee: "<red>Ядовитая Улейная Угроза"
+    cat: "<dark_gray>Тёмный Кот"
+    camel: "<gold>Элитный Верблюд"
+    camel_husk: "<gold>Элитный Верблюд-Нежить"
+    fox: "<red>Лис-Хищник"
+    horse: "<gold>Элитная Лошадь"
+    iron_golem: "<dark_gray>Железный Колосс"
+    llama: "<gold>Элитная Лама"
+    nautilus: "<dark_aqua>Древний Наутилус"
+    ocelot: "<dark_red>Охотник Оцелот"
+    polar_bear: "<white>Снежный Монстр"
+    rabbit: "<red>Элитный Кролик-Убийца"
+    skeleton_horse: "<dark_gray>Костяная Лошадь"
+    snow_golem: "<white>Ледяной Колосс"
+    sulfur_cube: "<gold>Серный Титан"
+    wolf: "<dark_gray>Теневой Волк"
+    zombie_horse: "<dark_red>Зомби Лошадь"
+    # Основной мир - враждебные
+    bogged: "<dark_red>Токсичный Грибник"
+    breeze: "<dark_aqua>Бурный Бриз"
+    cave_spider: "<dark_red>Смертоносный Охотник"
+    creeper: "<red>Грозовой Разрыв"
+    creaking: "<dark_red>Скрипучий Страж"
+    drowned: "<blue>Глубинный Утопец"
+    elder_guardian: "<dark_purple>Древний Левиафан"
+    guardian: "<dark_blue>Океанский Страж"
+    husk: "<yellow>Опалённый Странник"
+    parched: "<dark_red>Проклятый Пустынник"
+    phantom: "<dark_gray>Эфирный Крик"
+    skeleton: "<dark_gray>Костяной Отзвук"
+    silverfish: "<dark_gray>Каменный Роевик"
+    slime: "<dark_green>Живая Слизь"
+    spider: "<black>Тенетный Властитель"
+    stray: "<aqua>Ледяной Призрак"
+    witch: "<dark_purple>Теневая Колдунья"
+    zombie: "<dark_red>Порченый Бродяга"
+    zombie_nautilus: "<dark_red>Проклятый Наутилус"
+    zombie_villager: "<dark_red>Осквернённый Старейшина"
+    # Рейды
+    evoker: "<dark_red>Властитель Руин"
+    illusioner: "<light_purple>Повелитель Иллюзий"
+    pillager: "<dark_red>Предводитель Разбоя"
+    ravager: "<dark_gray>Железный Танк"
+    vex: "<gray>Призрачный Мучитель"
+    vindicator: "<red>Кровавый Воин"
+    # Нижний мир
+    blaze: "<red>Адское Ядро"
+    ghast: "<white>Небесный Плач"
+    hoglin: "<dark_red>Яростный Зверь"
+    magma_cube: "<dark_red>Расплавленный Титан"
+    piglin: "<gold>Барыга Бездны"
+    piglin_brute: "<dark_red>Свирепый Убийца"
+    strider: "<dark_red>Огненный Лавомер"
+    wither: "<black>Визер"
+    wither_skeleton: "<black>Повелитель Пепла"
+    zoglin: "<red>Искажённый Ужас"
+    zombified_piglin: "<dark_red>Проклятый Лорд"
+    # Край
+    ender_dragon: "<dark_purple>Король Энда"
+    enderman: "<dark_purple>Пространственный Разлом"
+    endermite: "<light_purple>Разрывной Паразит"
+    shulker: "<dark_purple>Защитник Энда"
+
+# Специфические способности для разных мобов
+# jump-strength можно добавлять любому мобу
+special-abilities:
+  rabbit:
+    hardened:
+      killer: true
+    elite:
+      killer: true
+      jump-strength: 1.5
+
+  skeleton:
+    hardened:
+      arrow-speed-multiplier: 1.4
+      attack-speed: 1.4
+    elite:
+      arrow-speed-multiplier: 1.8
+      attack-speed: 1.8
+      triple-shot: true
+
+  stray:
+    hardened:
+      arrow-speed-multiplier: 1.4
+      attack-speed: 1.4
+    elite:
+      arrow-speed-multiplier: 1.8
+      attack-speed: 1.8
+      triple-shot: true
+
+  bogged:
+    hardened:
+      arrow-speed-multiplier: 1.4
+      attack-speed: 1.4
+    elite:
+      arrow-speed-multiplier: 1.8
+      attack-speed: 1.8
+      triple-shot: true
+
+  parched:
+    hardened:
+      arrow-speed-multiplier: 1.4
+      attack-speed: 1.4
+    elite:
+      arrow-speed-multiplier: 1.8
+      attack-speed: 1.8
+      triple-shot: true
+
+  creeper:
+    hardened:
+      explosion-power: 1.4
+      fuse-time: 0.85
+    elite:
+      explosion-power: 1.0
+      fuse-time: 0.7
+      charged: true
+
+  spider:
+    hardened:
+      web-effect: true
+      jump-strength: 1.4
+    elite:
+      web-effect: true
+      jump-strength: 1.8
+      poison-bite: true
+
+  witch:
+    hardened:
+      potion-strength: 1.4
+      healing-chance: 0.3
+    elite:
+      potion-strength: 1.8
+      healing-chance: 0.6
+      resistance-potion: true
+
+  phantom:
+    hardened:
+      attack-cooldown: 0.8
+    elite:
+      attack-cooldown: 0.5
+      size-multiplier: 1.3
+
+  blaze:
+    hardened:
+      fireball-speed: 1.4
+      fireball-count: 2
+    elite:
+      fireball-speed: 1.8
+      fireball-count: 3
+      fire-aura: false
+
+  ghast:
+    hardened:
+      explosion-multiplier: 1.4
+      fireball-speed: 1.2
+    elite:
+      explosion-multiplier: 2.5
+      fireball-speed: 1.5
+      triple-shot: true
+
+  enderman:
+    hardened:
+      teleport-range: 1.5
+      teleport-cooldown: 0.8
+    elite:
+      teleport-range: 2.0
+      teleport-cooldown: 0.5
+      water-resistance: true
+
+  zombie_horse:
+    hardened:
+      jump-strength: 1.2
+    elite:
+      jump-strength: 1.5
+
+  skeleton_horse:
+    hardened:
+      jump-strength: 1.2
+    elite:
+      jump-strength: 1.5

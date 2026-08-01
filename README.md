@@ -1,110 +1,113 @@
-# SmartMobs - Интеллектуальная система улучшенных мобов
+# SmartMobs - Intelligent Enhanced Mob System
 
-SmartMobs - это инновационный плагин для Minecraft, который превращает обычных враждебных мобов в сложных противников, сохраняя при этом ванильную эстетику игры. Плагин не только увеличивает характеристики мобов, но и добавляет некоторым из них уникальные способности, делая каждую встречу с монстрами уникальным испытанием.
+SmartMobs is an innovative Minecraft plugin that transforms ordinary hostile mobs into challenging opponents while preserving the game's vanilla aesthetic. The plugin not only enhances mob stats but also adds unique abilities to some of them, making every encounter a unique challenge.
 
-## 🌟 Ключевые особенности
+* Русский перевод конфига расположен [ЗДЕСЬ](/src/main/resources/ru_config.yml)
 
-### 🎯 Естественная эволюция мобов
-- Два уровня развития: Мутировавшие и Эволюционировавшие (шансы настраиваются в конфиге)
-- Уникальные тематические названия для каждого типа мобов
-- Логичная прогрессия от простых мутаций к продвинутым эволюционным формам
-- Возможность автоматического увеличения шанса спавна усиленных мобов при удалении от спавна.
+## ⚙️ Technical Specifications
 
-### ⚡ Умные способности
-- **Скелеты**: повышенная скорость стрельбы, тройной выстрел у элитных
-- **Криперы**: ускоренное взведение, заряженная форма у элитных
-- **Пауки**: ловушка из паутины, усиленный прыжок, ядовитый укус у элитных
-- **Эндермены**: улучшенная телепортация, сопротивление воде
-- И многие другие уникальные способности для каждого типа мобов
+- **Minecraft Version**: 1.21.3+
+- **Platform**: Paper
+- **Java**: 25
 
-### 🛠️ Полная кастомизация
-- Включение/отключение отдельных типов мобов
-- Настройка вероятностей появления
-- Настройка увеличения сложности
-- Регулировка множителей здоровья, урона и скорости
-- Кастомные названия и цвета для каждого моба
-- Гибкая настройка специальных способностей
+> The last version compatible with Java 21 is 1.3.1
 
-### 🎮 Сохранение ванильного духа
-- Естественные названия, гармонирующие с лором Minecraft
-- Сбалансированная сложность, а не искусственное усиление
-- Интеграция в существующую экосистему мобов
-- Отображение имён только при наведении взгляда
+## 🌟 Key Features
 
-### 🚀 Оптимизация производительности
-- Эффективная обработка мобов при спавне
-- Умная система проверок и быстрый отсев событий
-- Минимальное воздействие на производительность сервера
+### 🎯 Natural Mob Evolution
+- Two development tiers: Hardened and Elite (chances configurable)
+- Unique thematic names for each mob type
+- Logical progression from simple mutations to advanced evolutionary forms
+- Automatic difficulty scaling based on distance from world spawn
 
-## 📋 Поддерживаемые мобы
+### ⚡ Smart Abilities
+- **Skeletons**: increased firing speed, triple shot for elite variants
+- **Creepers**: faster fuse time, charged form for elite variants
+- **Spiders**: web traps, enhanced jumping, poisonous bites for elite variants
+- **Endermen**: improved teleportation, water resistance
+- And many more unique abilities for each mob type
 
-Плагин охватывает всех основных враждебных мобов Minecraft:
+### 🛠️ Full Customization
+- Enable/disable individual mob types
+- Configurable spawn probabilities
+- Difficulty scaling settings
+- Adjustable health, damage, and speed multipliers
+- Custom names and colors for each mob
+- Flexible special ability configuration
 
-| Обычный моб            | Мутировавший        | Эволюционировавший      |
-|------------------------|---------------------|-------------------------|
-| Зомби                  | Гниющий Странник    | Порченый Бродяга        |
-| Скелет                 | Вечный Часовой      | Костяной Отзвук         |
-| Крипер                 | Испепеляющий Гость  | Грозовой Разрыв         |
-| Паук                   | Шёлковый Убийца     | Тенетный Властитель     |
-| Эндермен               | Бездонный Скиталец  | Пространственный Разлом |
-| Ведьма                 | Болотная Зельеварка | Теневая Колдунья        |
-| Фантом                 | Ночной Кошмар       | Эфирный Крик            |
-| Блейз                  | Огненный Дух        | Адское Ядро             |
-| Гаст                   | Туманный Призрак    | Небесный Плач           |
-| И ещё 40+ типов мобов! |                     |                         |
+### 🎮 Preserving Vanilla Spirit
+- Lore-friendly names that fit Minecraft's world
+- Balanced difficulty rather than artificial difficulty spikes
+- Seamless integration into the existing mob ecosystem
+- Names displayed only when looked at
 
-## ⚙️ Технические характеристики
+### 🚀 Performance Optimization
+- Efficient mob processing on spawn
+- Smart event filtering and early rejection
+- Minimal impact on server performance
 
-- **Версия Minecraft**: 1.21.3+
-- **Платформа**: Paper
-- **Java**: 21
-- **Лицензия**: MIT
+## 📋 Supported Mobs
 
-## 🚀 Установка
+The plugin covers all major hostile Minecraft mobs:
 
-1. Скачайте **последний релиз** из раздела [Releases](../../releases)
-2. Поместите файл `.jar` в папку `plugins/` вашего сервера
-3. Перезапустите сервер
-4. Настройте конфигурацию в `plugins/SmartMobs/config.yml`
-5. Используйте `/smartmobs reload` для применения изменений
+| Regular Mob             | Hardened Variant | Elite Variant     |
+|-------------------------|------------------|-------------------|
+| Zombie                  | Rotten Wanderer  | Corrupted Drifter |
+| Skeleton                | Eternal Sentinel | Bone Echo         |
+| Creeper                 | Scorching Guest  | Stormbreaker      |
+| Spider                  | Silk Slayer      | Web Lord          |
+| Enderman                | Abyssal Wanderer | Spatial Rift      |
+| Witch                   | Swamp Brewmaster | Shadow Witch      |
+| Phantom                 | Nightmare        | Ethereal Scream   |
+| Blaze                   | Fire Spirit      | Infernal Core     |
+| Ghast                   | Mist Ghost       | Heavenly Cry      |
+| And 40+ more mob types! |                  |                   |
 
-## ⚙️ Конфигурация
+## 🚀 Installation
 
-Плагин использует гибкую систему конфигурации YAML. Основные настройки:
+1. Download the **latest release** from the [Releases](../../releases) section
+2. Place the `.jar` file into your server's `plugins/` folder
+3. Restart the server
+4. Configure settings in `plugins/SmartMobs/config.yml`
+5. Use `/smartmobs reload` to apply changes
+
+## ⚙️ Configuration
+
+The plugin uses a flexible YAML configuration system. Main settings:
 
 ```yml
-# Настройки SmartMobs
-# Сообщения плагина
+# SmartMobs Configuration
+# Plugin messages
 messages:
-  # Общие сообщения
-  no-permission: "<red>❌ У вас нет прав на использование этой команды."
-  only-players: "<red>❌ Только игрок может спавнить мобов."
-  unknown-subcommand: "<red>❌ Неизвестная подкоманда."
+  # General messages
+  no-permission: "<red>❌ You don't have permission to use this command."
+  only-players: "<red>❌ Only players can spawn mobs."
+  unknown-subcommand: "<red>❌ Unknown subcommand."
 
-  # Команда spawn
-  spawn-usage: "<yellow>Использование: /smartmobs spawn <mob> <hardened|elite>"
-  spawn-no-permission: "<red>❌ У вас нет прав на спавн мобов."
-  spawn-mob-disabled: "<red>❌ Моб <white>{mob}</white> отключён в конфиге."
-  spawn-unknown-mob: "<red>❌ Неизвестный тип моба: <white>{mob}"
-  spawn-not-living: "<red>❌ Этот тип не является живым существом."
-  spawn-unknown-variant: "<red>❌ Неизвестный вариант: <white>{variant}"
-  spawn-success: "<green>✔ Заспавнен <yellow>{variant}</yellow> <gray>{mob}</gray>."
+  # Spawn command
+  spawn-usage: "<yellow>Usage: /smartmobs spawn <mob> <hardened|elite>"
+  spawn-no-permission: "<red>❌ You don't have permission to spawn mobs."
+  spawn-mob-disabled: "<red>❌ Mob <white>{mob}</white> is disabled in the config."
+  spawn-unknown-mob: "<red>❌ Unknown mob type: <white>{mob}"
+  spawn-not-living: "<red>❌ This type is not a living entity."
+  spawn-unknown-variant: "<red>❌ Unknown variant: <white>{variant}"
+  spawn-success: "<green>✔ Spawned <yellow>{variant}</yellow> <gray>{mob}</gray>."
 
-  # Команда reload
-  reload-no-permission: "<red>❌ У вас нет прав на перезагрузку плагина."
-  reload-success: "<green>✔ Конфиг SmartMobs перезагружен."
+  # Reload command
+  reload-no-permission: "<red>❌ You don't have permission to reload the plugin."
+  reload-success: "<green>✔ SmartMobs config reloaded."
 
-# Вероятности появления различных типов мобов
+# Spawn chances for different mob types
 chances:
-  hardened: 0.05 # Начальный шанс появления hardened моба
-  elite: 0.01 # Начальный шанс появления elite моба
-  radius-complication: true # Нужно ли увеличивать сложность мобов в зависимости от удаления от спавна
-  world-radius: 10000 # Радиус мира до которого происходит увеличение сложности
+  hardened: 0.05 # Base chance for hardened mobs to spawn
+  elite: 0.01 # Base chance for elite mobs to spawn
+  radius-complication: true # Whether mob difficulty should scale with distance from spawn
+  world-radius: 10000 # World radius up to which difficulty scaling applies
   radius-levels:
-    - from: 0.0 # начало зоны (0 = спавн)
-      to: 0.33 # конец зоны (0.33 = треть от world-radius)
-      hardened: 0.5 # шанс hardened при конце зоны
-      elite: 0.05 # шанс elite при конце зоны
+    - from: 0.0 # zone start (0 = spawn)
+      to: 0.33 # zone end (0.33 = one-third of world-radius)
+      hardened: 0.5 # hardened chance at zone end
+      elite: 0.05 # elite chance at zone end
     - from: 0.33
       to: 0.66
       hardened: 0.5
@@ -114,33 +117,33 @@ chances:
       hardened: 0.2
       elite: 0.8
 
-# Включить/выключить модификации для каждого моба
+# Enable/disable modifications for each mob
 enabled-mobs:
-  # ОСНОВНОЙ МИР - Нейтральные и пассивные
+  # OVERWORLD - Neutral & Passive
   bee: true
   iron_golem: true
   rabbit: true
   snow_golem: true
   wolf: true
-  # ... и так далее для всех мобов
+  # ... and so on for all mobs
 
-# Базовые характеристики для мутировавших мобов
+# Base stats for hardened mobs
 hardened:
   hp-multiplier: 1.25
   damage-multiplier: 1.25
   knockback-resistance: 0.5
   name-visible: true
 
-  # Индивидуальные имена для каждого типа мобов
+  # Custom display names per mob type
   display-names:
-    # Основной мир - нейтральные
-    bee: "<yellow>Жужжащий Убийца"
-    iron_golem: "<gray>Стальной Страж"
-    rabbit: "<gold>Кролик-Убийца"
-    snow_golem: "<white>Морозный Голем"
-    wolf: "<gray>Лунный Хищник"
+    # Overworld - neutral
+    bee: "<yellow>Buzzing Slayer"
+    iron_golem: "<gray>Steel Guardian"
+    rabbit: "<gold>Killer Rabbit"
+    snow_golem: "<white>Frost Golem"
+    wolf: "<gray>Lunar Predator"
 
-# Базовые характеристики для эволюционировавших мобов
+# Base stats for elite mobs
 elite:
   hp-multiplier: 1.5
   damage-multiplier: 1.5
@@ -151,16 +154,16 @@ elite:
     enabled: true
     level: 0
 
-  # Индивидуальные имена для каждого типа мобов
+  # Custom display names per mob type
   display-names:
-    # Основной мир - нейтральные
-    bee: "<red>Ядовитая Улейная Угроза"
-    iron_golem: "<dark_gray>Железный Колосс"
-    rabbit: "<red>Элитный Кролик-Убийца"
-    snow_golem: "<white>Ледяной Колосс"
-    wolf: "<dark_gray>Теневой Волк"
+    # Overworld - neutral
+    bee: "<red>Venomous Hive Threat"
+    iron_golem: "<dark_gray>Iron Colossus"
+    rabbit: "<red>Elite Killer Rabbit"
+    snow_golem: "<white>Ice Colossus"
+    wolf: "<dark_gray>Shadow Wolf"
 
-# Специфические способности для разных мобов
+# Special abilities for specific mobs
 special-abilities:
   rabbit:
     hardened:
@@ -177,54 +180,50 @@ special-abilities:
       arrow-speed-multiplier: 1.8
       attack-speed: 1.8
       triple-shot: true
-    # ... и так далее для других мобов
+    # ... and so on for other mobs
 ```
 
-## 🎮 Команды
+## 🎮 Commands
 
-- `/smartmobs` - показать справку по плагину
-- `/smartmobs reload` - перезагрузить конфигурацию (требует права `smartmobs.reload`)
-- `/smartmobs spawn <mob> <hardened|elite>` - ручной спавн усиленного моба (требует права `smartmobs.spawn`)
+- `/smartmobs` - show plugin help
+- `/smartmobs reload` - reload configuration (requires `smartmobs.reload` permission)
+- `/smartmobs spawn <mob> <hardened|elite>` - manually spawn an enhanced mob (requires `smartmobs.spawn` permission)
 
-## 🔧 Разработка
+## 🔧 Development
 
-Плагин написан на Java с использованием Bukkit/Paper API. Основные классы:
+The plugin is written in Java using the Bukkit/Paper API. Main classes:
 
-- **SmartMobs** - главный класс плагина
-- **ConfigManager** - управление конфигурацией
-- **MobManager** - логика усиления мобов
-- **MobSpawnListener** - обработчик спавна мобов
-- **SmartMobsCommand** - обработчик команд
+- **SmartMobs** - main plugin class
+- **ConfigManager** - configuration management
+- **MobManager** - mob enhancement logic
+- **MobSpawnListener** - mob spawn handler
+- **SmartMobsCommand** - command handler
 
-## 📝 Особенности реализации
+## 📝 Implementation Details
 
-- **Автоматическая генерация конфига** - при первом запуске создаётся полный конфиг со всеми настройками
-- **Оптимизированная обработка** - проверки на включённые мобы выполняются до усиления
-- **Динамическая сложность мобов по расстоянию от спавна** - можно настроить в конфиге
+- **Automatic config generation** - full config with all settings is created on first run
+- **Optimized processing** - checks for enabled mobs are performed before any enhancement
+- **Dynamic difficulty scaling** - mob difficulty increases with distance from spawn
 
-## 🤝 Вклад в разработку
+## 🤝 Contributing
 
-Мы приветствуем вклад в развитие плагина! Если вы хотите предложить улучшения или исправить ошибки:
+We welcome contributions to the plugin's development! If you'd like to suggest improvements or fix bugs:
 
-1. Сделайте форк репозитория
-2. Создайте ветку для вашей функции (`git checkout -b feature/AmazingFeature`)
-3. Закоммитьте изменения (`git commit -m 'Add some AmazingFeature'`)
-4. Запушьте ветку (`git push origin feature/AmazingFeature`)
-5. Откройте Pull Request
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## 📄 Лицензия
+## 📄 License
 
-Этот проект распространяется под лицензией MIT. Подробнее см. в файле LICENSE.
+This project is distributed under the MIT License. See the LICENSE file for details.
 
-## 🐛 Сообщение об ошибках
+## 🐛 Bug Reports
 
-Если вы обнаружили ошибку, пожалуйста, создайте issue в репозитории проекта с подробным описанием:
-- Версия Minecraft
-- Версия Paper
-- Версия плагина
-- Шаги для воспроизведения ошибки
-- Логи ошибок (если есть)
-
----
-
-**Примечание**: Плагин находится в активной разработке. Функциональность может изменяться в будущих версиях.
+If you find a bug, please create an issue in the project repository with a detailed description:
+- Minecraft version
+- Paper version
+- Plugin version
+- Steps to reproduce the bug
+- Error logs (if available)

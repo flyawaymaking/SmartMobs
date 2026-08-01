@@ -1,35 +1,35 @@
-# Настройки SmartMobs
-# Сообщения плагина
+# SmartMobs Configuration
+# Plugin messages
 messages:
-  # Общие сообщения
-  no-permission: "<red>❌ У вас нет прав на использование этой команды."
-  only-players: "<red>❌ Только игрок может спавнить мобов."
-  unknown-subcommand: "<red>❌ Неизвестная подкоманда."
+  # General messages
+  no-permission: "<red>❌ You don't have permission to use this command."
+  only-players: "<red>❌ Only players can spawn mobs."
+  unknown-subcommand: "<red>❌ Unknown subcommand."
 
-  # Команда spawn
-  spawn-usage: "<yellow>Использование: /smartmobs spawn <mob> <hardened|elite>"
-  spawn-no-permission: "<red>❌ У вас нет прав на спавн мобов."
-  spawn-mob-disabled: "<red>❌ Моб <white>{mob}</white> отключён в конфиге."
-  spawn-unknown-mob: "<red>❌ Неизвестный тип моба: <white>{mob}"
-  spawn-not-living: "<red>❌ Этот тип не является живым существом."
-  spawn-unknown-variant: "<red>❌ Неизвестный вариант: <white>{variant}"
-  spawn-success: "<green>✔ Заспавнен <yellow>{variant}</yellow> <gray>{mob}</gray>."
+  # Spawn command
+  spawn-usage: "<yellow>Usage: /smartmobs spawn <mob> <hardened|elite>"
+  spawn-no-permission: "<red>❌ You don't have permission to spawn mobs."
+  spawn-mob-disabled: "<red>❌ Mob <white>{mob}</white> is disabled in the config."
+  spawn-unknown-mob: "<red>❌ Unknown mob type: <white>{mob}"
+  spawn-not-living: "<red>❌ This type is not a living entity."
+  spawn-unknown-variant: "<red>❌ Unknown variant: <white>{variant}"
+  spawn-success: "<green>✔ Spawned <yellow>{variant}</yellow> <gray>{mob}</gray>."
 
-  # Команда reload
-  reload-no-permission: "<red>❌ У вас нет прав на перезагрузку плагина."
-  reload-success: "<green>✔ Конфиг SmartMobs перезагружен."
+  # Reload command
+  reload-no-permission: "<red>❌ You don't have permission to reload the plugin."
+  reload-success: "<green>✔ SmartMobs config reloaded."
 
-# Вероятности появления различных типов мобов
+# Spawn chances for different mob types
 chances:
-  hardened: 0.05 # Начальный шанс появления hardened моба
-  elite: 0.01 # Начальный шанс появления elite моба
-  radius-complication: true # Нужно ли увеличивать сложность мобов в зависимости от удаления от спавна
-  world-radius: 15000 # Радиус мира до которого происходит увеличение сложности
+  hardened: 0.05 # Base chance for hardened mobs to spawn
+  elite: 0.01 # Base chance for elite mobs to spawn
+  radius-complication: true # Whether mob difficulty should scale with distance from spawn
+  world-radius: 15000 # World radius up to which difficulty scaling applies
   radius-levels:
-    - from: 0.0 # начало зоны (0 = спавн)
-      to: 0.2 # конец зоны (0.33 = треть от world-radius)
-      hardened: 0.2 # шанс hardened при конце зоны
-      elite: 0.02 # шанс elite при конце зоны
+    - from: 0.0 # zone start (0 = spawn)
+      to: 0.2 # zone end (0.33 = one-third of world-radius)
+      hardened: 0.2 # hardened chance at zone end
+      elite: 0.02 # elite chance at zone end
     - from: 0.2
       to: 0.4
       hardened: 0.4
@@ -47,9 +47,9 @@ chances:
       hardened: 0.0
       elite: 1.0
 
-# Включить/выключить модификации для каждого моба
+# Enable/disable modifications for each mob
 enabled-mobs:
-  # ОСНОВНОЙ МИР - нейтральные и мирные
+  # OVERWORLD - neutral & passive
   allay: true
   axolotl: true
   bee: true
@@ -60,14 +60,16 @@ enabled-mobs:
   horse: true
   iron_golem: true
   llama: true
+  nautilus: true
   ocelot: true
   polar_bear: true
   rabbit: true
   skeleton_horse: true
   snow_golem: true
+  sulfur_cube: true
   wolf: true
   zombie_horse: true
-  # ОСНОВНОЙ МИР - Враждебные
+  # OVERWORLD - hostile
   bogged: true
   breeze: true
   cave_spider: true
@@ -77,6 +79,7 @@ enabled-mobs:
   elder_guardian: true
   guardian: true
   husk: true
+  parched: true
   phantom: true
   skeleton: true
   slime: true
@@ -84,15 +87,16 @@ enabled-mobs:
   stray: true
   witch: true
   zombie: true
+  zombie_nautilus: true
   zombie_villager: true
-  # Рейды и лесные особняки
+  # Raids & woodland mansions
   evoker: true
   illusioner: true
   pillager: true
   ravager: true
   vex: true
   vindicator: true
-  # НИЖНИЙ МИР (АД)
+  # NETHER
   blaze: true
   ghast: true
   hoglin: true
@@ -104,85 +108,88 @@ enabled-mobs:
   wither_skeleton: true
   zoglin: true
   zombified_piglin: true
-  # КРАЙ
+  # THE END
   ender_dragon: true
   enderman: true
   endermite: true
   shulker: true
 
-# Базовые характеристики для мутировавших мобов
+# Base stats for hardened mobs
 hardened:
   hp-multiplier: 1.25
   damage-multiplier: 1.25
   knockback-resistance: 0.5
   name-visible: true
 
-  # Индивидуальные имена для каждого типа мобов
+  # Custom display names per mob type
   display-names:
-    # Основной мир - нейтральные и мирные
-    allay: "<aqua>Хранитель Мелодий"
-    axolotl: "<aqua>Амфибийный Убийца"
-    bee: "<yellow>Жужжащий Убийца"
-    cat: "<gray>Ночной Кошмар"
-    camel: "<gold>Боевой Верблюд"
-    camel_husk: "<gold>Боевой Верблюд-Нежить"
-    fox: "<red>Хитрый Лис"
-    horse: "<gold>Боевая Лошадь"
-    iron_golem: "<gray>Стальной Страж"
-    llama: "<gold>Опасная Лама"
-    ocelot: "<dark_gray>Дикий Оцелот"
-    polar_bear: "<white>Белый Хищник"
-    rabbit: "<gold>Кролик-Убийца"
-    skeleton_horse: "<gray>Костяная Лошадь"
-    snow_golem: "<white>Морозный Голем"
-    wolf: "<gray>Лунный Хищник"
-    zombie_horse: "<red>Зомби Лошадь"
-    # Основной мир - враждебные
-    bogged: "<dark_green>Грибной Часовой"
-    breeze: "<aqua>Лёгкий Бриз"
-    cave_spider: "<dark_green>Ядовитый Охотник"
-    creeper: "<dark_green>Испепеляющий Гость"
-    creaking: "<dark_gray>Скрипучий Страж"
-    drowned: "<dark_aqua>Морской Скиталец"
-    elder_guardian: "<dark_blue>Древний Хранитель"
-    guardian: "<dark_aqua>Глубинный Страж"
-    husk: "<gold>Песчаный Падальщик"
-    parched: "<gold>Пустынный Страж"
-    phantom: "<dark_gray>Ночной Кошмар"
-    skeleton: "<gray>Вечный Часовой"
-    silverfish: "<gray>Каменный Червец"
-    slime: "<green>Болотная Слизь"
-    spider: "<dark_gray>Шёлковый Убийца"
-    stray: "<gray>Мёрзлый Лучник"
-    witch: "<light_purple>Болотная Зельеварка"
-    zombie: "<gold>Гниющий Странник"
-    zombie_villager: "<dark_green>Проклятый Житель"
-    # Рейды
-    evoker: "<dark_purple>Теневой Заклинатель"
-    illusioner: "<dark_purple>Туманный Морок"
-    pillager: "<gold>Лесной Разбойник"
-    ravager: "<gray>Каменный Танк"
-    vex: "<dark_gray>Эфирный Вредитель"
-    vindicator: "<dark_red>Неумолимый Воин"
-    # Нижний мир
-    blaze: "<gold>Огненный Дух"
-    ghast: "<white>Туманный Призрак"
-    hoglin: "<dark_red>Адский Кабан"
-    magma_cube: "<gold>Вулканическая Глыба"
-    piglin: "<gold>Золотоискатель"
-    piglin_brute: "<dark_red>Свирепый Громила"
-    strider: "<red>Лавомерка"
-    wither: "<black>Визер"
-    wither_skeleton: "<dark_gray>Углистый Страж"
-    zoglin: "<red>Искажённый Зверь"
-    zombified_piglin: "<gold>Проклятый Торговец"
-    # Край
-    ender_dragon: "<dark_purple>Дракон Энда"
-    enderman: "<dark_purple>Бездонный Скиталец"
-    endermite: "<dark_purple>Пространственная Блоха"
-    shulker: "<light_purple>Ракушечный Защитник"
+    # Overworld - neutral & passive
+    allay: "<aqua>Melody Guardian"
+    axolotl: "<aqua>Amphibious Slayer"
+    bee: "<yellow>Buzzing Slayer"
+    cat: "<gray>Nightmare"
+    camel: "<gold>War Camel"
+    camel_husk: "<gold>Undead War Camel"
+    fox: "<red>Cunning Fox"
+    horse: "<gold>War Horse"
+    iron_golem: "<gray>Steel Guardian"
+    llama: "<gold>Dangerous Llama"
+    nautilus: "<aqua>War Nautilus"
+    ocelot: "<dark_gray>Wild Ocelot"
+    polar_bear: "<white>White Predator"
+    rabbit: "<gold>Killer Rabbit"
+    skeleton_horse: "<gray>Skeletal Horse"
+    snow_golem: "<white>Frost Golem"
+    sulfur_cube: "<yellow>Sulfur Cube"
+    wolf: "<gray>Lunar Predator"
+    zombie_horse: "<red>Zombie Horse"
+    # Overworld - hostile
+    bogged: "<dark_green>Fungal Sentinel"
+    breeze: "<aqua>Light Breeze"
+    cave_spider: "<dark_green>Venomous Hunter"
+    creeper: "<dark_green>Scorching Guest"
+    creaking: "<dark_gray>Creaking Guardian"
+    drowned: "<dark_aqua>Deep Sea Wanderer"
+    elder_guardian: "<dark_blue>Ancient Guardian"
+    guardian: "<dark_aqua>Depth Guardian"
+    husk: "<gold>Sand Scavenger"
+    parched: "<gold>Desert Guardian"
+    phantom: "<dark_gray>Nightmare"
+    skeleton: "<gray>Eternal Sentinel"
+    silverfish: "<gray>Stone Borer"
+    slime: "<green>Swamp Slime"
+    spider: "<dark_gray>Silk Slayer"
+    stray: "<gray>Frost Archer"
+    witch: "<light_purple>Swamp Brewmaster"
+    zombie: "<gold>Rotten Wanderer"
+    zombie_nautilus: "<dark_aqua>Rotten Nautilus"
+    zombie_villager: "<dark_green>Cursed Villager"
+    # Raids
+    evoker: "<dark_purple>Shadow Evoker"
+    illusioner: "<dark_purple>Mist Illusioner"
+    pillager: "<gold>Forest Raider"
+    ravager: "<gray>Stone Tank"
+    vex: "<dark_gray>Ethereal Vex"
+    vindicator: "<dark_red>Relentless Warrior"
+    # Nether
+    blaze: "<gold>Fire Spirit"
+    ghast: "<white>Mist Ghost"
+    hoglin: "<dark_red>Nether Boar"
+    magma_cube: "<gold>Volcanic Cube"
+    piglin: "<gold>Gold Digger"
+    piglin_brute: "<dark_red>Fierce Brute"
+    strider: "<red>Lava Strider"
+    wither: "<black>Wither"
+    wither_skeleton: "<dark_gray>Coal Guardian"
+    zoglin: "<red>Corrupted Beast"
+    zombified_piglin: "<gold>Cursed Trader"
+    # The End
+    ender_dragon: "<dark_purple>End Dragon"
+    enderman: "<dark_purple>Abyssal Wanderer"
+    endermite: "<dark_purple>Spatial Flea"
+    shulker: "<light_purple>Shell Guardian"
 
-# Базовые характеристики для эволюционировавших мобов
+# Base stats for elite mobs
 elite:
   hp-multiplier: 1.5
   damage-multiplier: 1.5
@@ -193,73 +200,76 @@ elite:
     enabled: true
     level: 0
 
-  # Индивидуальные имена для каждого типа мобов
+  # Custom display names per mob type
   display-names:
-    # Основной мир - нейтральные и мирные
-    allay: "<dark_aqua>Хранитель Грёз"
-    axolotl: "<aqua>Амфибийный Монстр"
-    bee: "<red>Ядовитая Улейная Угроза"
-    cat: "<dark_gray>Тёмный Кот"
-    camel: "<gold>Элитный Верблюд"
-    camel_husk: "<gold>Элитный Верблюд-Нежить"
-    fox: "<red>Лис-Хищник"
-    horse: "<gold>Элитная Лошадь"
-    iron_golem: "<dark_gray>Железный Колосс"
-    llama: "<gold>Элитная Лама"
-    ocelot: "<dark_red>Охотник Оцелот"
-    polar_bear: "<white>Снежный Монстр"
-    rabbit: "<red>Элитный Кролик-Убийца"
-    skeleton_horse: "<dark_gray>Костяная Лошадь"
-    snow_golem: "<white>Ледяной Колосс"
-    wolf: "<dark_gray>Теневой Волк"
-    zombie_horse: "<dark_red>Зомби Лошадь"
-    # Основной мир - враждебные
-    bogged: "<dark_red>Токсичный Грибник"
-    breeze: "<dark_aqua>Бурный Бриз"
-    cave_spider: "<dark_red>Смертоносный Охотник"
-    creeper: "<red>Грозовой Разрыв"
-    creaking: "<dark_red>Скрипучий Страж"
-    drowned: "<blue>Глубинный Утопец"
-    elder_guardian: "<dark_purple>Древний Левиафан"
-    guardian: "<dark_blue>Океанский Страж"
-    husk: "<yellow>Опалённый Странник"
-    parched: "<dark_red>Проклятый Пустынник"
-    phantom: "<dark_gray>Эфирный Крик"
-    skeleton: "<dark_gray>Костяной Отзвук"
-    silverfish: "<dark_gray>Каменный Роевик"
-    slime: "<dark_green>Живая Слизь"
-    spider: "<black>Тенетный Властитель"
-    stray: "<aqua>Ледяной Призрак"
-    witch: "<dark_purple>Теневая Колдунья"
-    zombie: "<dark_red>Порченый Бродяга"
-    zombie_villager: "<dark_red>Осквернённый Старейшина"
-    # Рейды
-    evoker: "<dark_red>Властитель Руин"
-    illusioner: "<light_purple>Повелитель Иллюзий"
-    pillager: "<dark_red>Предводитель Разбоя"
-    ravager: "<dark_gray>Железный Танк"
-    vex: "<gray>Призрачный Мучитель"
-    vindicator: "<red>Кровавый Воин"
-    # Нижний мир
-    blaze: "<red>Адское Ядро"
-    ghast: "<white>Небесный Плач"
-    hoglin: "<dark_red>Яростный Зверь"
-    magma_cube: "<dark_red>Расплавленный Титан"
-    piglin: "<gold>Барыга Бездны"
-    piglin_brute: "<dark_red>Свирепый Убийца"
-    strider: "<dark_red>Огненный Лавомер"
-    wither: "<black>Визер"
-    wither_skeleton: "<black>Повелитель Пепла"
-    zoglin: "<red>Искажённый Ужас"
-    zombified_piglin: "<dark_red>Проклятый Лорд"
-    # Край
-    ender_dragon: "<dark_purple>Король Энда"
-    enderman: "<dark_purple>Пространственный Разлом"
-    endermite: "<light_purple>Разрывной Паразит"
-    shulker: "<dark_purple>Защитник Энда"
+    # Overworld - neutral & passive
+    allay: "<dark_aqua>Dream Guardian"
+    axolotl: "<aqua>Amphibious Monster"
+    bee: "<red>Venomous Hive Threat"
+    cat: "<dark_gray>Dark Cat"
+    camel: "<gold>Elite Camel"
+    camel_husk: "<gold>Elite Undead Camel"
+    fox: "<red>Predator Fox"
+    horse: "<gold>Elite Horse"
+    iron_golem: "<dark_gray>Iron Colossus"
+    llama: "<gold>Elite Llama"
+    nautilus: "<dark_aqua>Ancient Nautilus"
+    ocelot: "<dark_red>Hunter Ocelot"
+    polar_bear: "<white>Snow Monster"
+    rabbit: "<red>Elite Killer Rabbit"
+    skeleton_horse: "<dark_gray>Skeletal Warhorse"
+    snow_golem: "<white>Ice Colossus"
+    sulfur_cube: "<gold>Sulfur Titan"
+    wolf: "<dark_gray>Shadow Wolf"
+    zombie_horse: "<dark_red>Zombie Warhorse"
+    # Overworld - hostile
+    bogged: "<dark_red>Toxic Fungal"
+    breeze: "<dark_aqua>Storm Breeze"
+    cave_spider: "<dark_red>Deadly Hunter"
+    creeper: "<red>Stormbreaker"
+    creaking: "<dark_red>Creaking Guardian"
+    drowned: "<blue>Deep Drowned"
+    elder_guardian: "<dark_purple>Ancient Leviathan"
+    guardian: "<dark_blue>Ocean Guardian"
+    husk: "<yellow>Scorched Wanderer"
+    parched: "<dark_red>Cursed Hermit"
+    phantom: "<dark_gray>Ethereal Scream"
+    skeleton: "<dark_gray>Bone Echo"
+    silverfish: "<dark_gray>Stone Swarmer"
+    slime: "<dark_green>Living Slime"
+    spider: "<black>Web Lord"
+    stray: "<aqua>Ice Ghost"
+    witch: "<dark_purple>Shadow Witch"
+    zombie: "<dark_red>Corrupted Drifter"
+    zombie_nautilus: "<dark_red>Cursed Nautilus"
+    zombie_villager: "<dark_red>Corrupted Elder"
+    # Raids
+    evoker: "<dark_red>Ruin Lord"
+    illusioner: "<light_purple>Illusion Master"
+    pillager: "<dark_red>Raid Leader"
+    ravager: "<dark_gray>Iron Tank"
+    vex: "<gray>Ghostly Tormentor"
+    vindicator: "<red>Blood Warrior"
+    # Nether
+    blaze: "<red>Infernal Core"
+    ghast: "<white>Heavenly Cry"
+    hoglin: "<dark_red>Furious Beast"
+    magma_cube: "<dark_red>Molten Titan"
+    piglin: "<gold>Abyss Merchant"
+    piglin_brute: "<dark_red>Fierce Slayer"
+    strider: "<dark_red>Fire Strider"
+    wither: "<black>Wither Lord"
+    wither_skeleton: "<black>Ash Lord"
+    zoglin: "<red>Corrupted Horror"
+    zombified_piglin: "<dark_red>Cursed Lord"
+    # The End
+    ender_dragon: "<dark_purple>End King"
+    enderman: "<dark_purple>Spatial Rift"
+    endermite: "<light_purple>Rift Parasite"
+    shulker: "<dark_purple>End Guardian"
 
-# Специфические способности для разных мобов
-# jump-strength можно добавлять любому мобу
+# Special abilities for specific mobs
+# jump-strength can be added to any mob
 special-abilities:
   rabbit:
     hardened:
