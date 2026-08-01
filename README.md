@@ -4,13 +4,12 @@ SmartMobs is an innovative Minecraft plugin that transforms ordinary hostile mob
 
 * Русский перевод конфига расположен [ЗДЕСЬ](/src/main/resources/ru_config.yml)
 
-## ⚙️ Technical Specifications
+## 🧩 Version Compatibility
 
-- **Minecraft Version**: 1.21.3+
-- **Platform**: Paper
-- **Java**: 25
-
-> The last version compatible with Java 21 is 1.3.1
+| **Plugin version** | **Supported Paper**  | **Java** |
+|--------------------|----------------------|----------|
+| `1.4.0`            | `1.21.3` – `26.2`    | 25       |
+| `1.3.1`            | `1.21.3` – `1.21.11` | 21       |
 
 ## 🌟 Key Features
 
