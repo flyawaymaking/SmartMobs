@@ -16,7 +16,7 @@ public class SmartMobsCommand implements CommandExecutor, TabCompleter {
     private final ConfigManager configManager;
     private final MiniMessage miniMessage = MiniMessage.miniMessage();
 
-    public SmartMobsCommand(SmartMobs plugin, MobManager mobManager, ConfigManager configManager) {
+    public SmartMobsCommand(MobManager mobManager, ConfigManager configManager) {
         this.mobManager = mobManager;
         this.configManager = configManager;
     }

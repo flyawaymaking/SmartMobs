@@ -42,7 +42,7 @@ public class SmartMobs extends JavaPlugin {
     private void registerCommands() {
         var command = getCommand("smartmobs");
         if (command != null) {
-            SmartMobsCommand executor = new SmartMobsCommand(this, mobManager, configManager);
+            SmartMobsCommand executor = new SmartMobsCommand(mobManager, configManager);
             command.setExecutor(executor);
             command.setTabCompleter(executor);
         }
