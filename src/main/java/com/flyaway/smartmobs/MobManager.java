@@ -64,7 +64,7 @@ public class MobManager {
                             hardenedChance = last.hardened;
                             eliteChance = last.elite;
                         } else {
-                            logger.warning(String.format("[SmartMobs] Не найден уровень для normalized=%.4f. Проверь radius-levels в конфиge.", normalized));
+                            logger.warning(String.format("The level for normalized=%.4f was not found. Check the radius-levels in the config.", normalized));
                         }
                     }
                 }

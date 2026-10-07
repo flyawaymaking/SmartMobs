@@ -8,7 +8,7 @@ SmartMobs is an innovative Minecraft plugin that transforms ordinary hostile mob
 
 | **Plugin version** | **Supported Paper**  | **Java** |
 |--------------------|----------------------|----------|
-| `1.4.0`            | `1.21.3` – `26.2`    | 25       |
+| `1.4.0+`           | `1.21.3` – `26.2`    | 25       |
 | `1.3.1`            | `1.21.3` – `1.21.11` | 21       |
 
 ## 🌟 Key Features

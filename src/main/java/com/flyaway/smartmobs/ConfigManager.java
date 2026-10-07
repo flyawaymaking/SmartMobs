@@ -62,7 +62,7 @@ public class ConfigManager {
 
         List<?> rawList = config.getList("chances.radius-levels");
         if (rawList == null) {
-            SmartMobs.getInstance().getLogger().warning("[SmartMobs] radius-levels не найден в конфиге!");
+            SmartMobs.getInstance().getLogger().warning("Radius-levels not found in the config!");
             return;
         }
 
@@ -75,12 +75,12 @@ public class ConfigManager {
 
                 result.add(new RadiusLevel(from, to, hardened, elite));
             } else {
-                SmartMobs.getInstance().getLogger().warning("[SmartMobs] Элемент radius-levels имеет неверный формат: " + item);
+                SmartMobs.getInstance().getLogger().warning("The radius-levels element has an incorrect format: " + item);
             }
         }
 
         radiusLevels = result;
-        SmartMobs.getInstance().getLogger().info("[SmartMobs] Загружено уровней сложности: " + result.size());
+        SmartMobs.getInstance().getLogger().info("Loaded difficulty levels: " + result.size());
     }
 
     private void loadEnabledMobs() {
