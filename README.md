@@ -1,5 +1,8 @@
 # SmartMobs - Intelligent Enhanced Mob System
 
+[![Modrinth Downloads](https://img.shields.io/modrinth/dt/smartmobsplugin?logo=modrinth&label=downloads&color=1bd96a)](https://modrinth.com/plugin/smartmobsplugin)
+[![Modrinth Followers](https://img.shields.io/modrinth/followers/smartmobsplugin?logo=modrinth&label=followers&color=1bd96a)](https://modrinth.com/plugin/smartmobsplugin)
+
 SmartMobs is an innovative Minecraft plugin that transforms ordinary hostile mobs into challenging opponents while preserving the game's vanilla aesthetic. The plugin not only enhances mob stats but also adds unique abilities to some of them, making every encounter a unique challenge.
 
 * Русский перевод конфига расположен [ЗДЕСЬ](/src/main/resources/ru_config.yml)
